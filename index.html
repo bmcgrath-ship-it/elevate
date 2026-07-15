@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Three Levels of Craft | Stake Engineering</title>
+<style>
+:root{
+  --bg:#13232d;--bg-raised:#1a2c38;--bg-card:#213743;--border:#2f4553;
+  --accent:#1475e1;--accent-hover:#3a8ff0;--green:#00e701;
+  --text:#f7fafc;--text-2:#9fbed0;
+  --r-sm:4px;--r:8px;--r-lg:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Proxima Nova',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;min-height:100vh}
+.topbar{background:var(--bg-raised);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;align-items:center;gap:24px;position:sticky;top:0;z-index:10}
+.wordmark{font-weight:800;font-size:20px;letter-spacing:.5px;color:var(--text);text-decoration:none}
+.wordmark span{color:var(--accent)}
+.topnav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.topnav a{color:var(--text-2);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:var(--r-sm);transition:all .15s}
+.topnav a:hover{color:var(--text);background:var(--bg-card)}
+.topnav a.active{color:var(--text);background:var(--bg-card)}
+.wrap{max-width:960px;margin:0 auto;padding:48px 24px 80px}
+.draft-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(20,117,225,.12);border:1px solid var(--accent);color:var(--accent-hover);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:999px;margin-bottom:20px}
+h1{font-size:40px;line-height:1.15;font-weight:800;margin-bottom:12px;text-wrap:balance}
+h2,h3{text-wrap:balance}
+p{text-wrap:pretty}
+.sub{color:var(--text-2);font-size:18px;margin-bottom:32px;max-width:720px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+.howto{background:var(--bg-raised);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--r);padding:20px 24px;margin-bottom:44px}
+.howto strong{color:var(--text)}
+.howto p{color:var(--text-2);font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:40px}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;text-decoration:none;color:var(--text);display:flex;flex-direction:column;gap:12px;transition:transform .15s,border-color .15s}
+.card:hover{transform:translateY(-3px);border-color:var(--c,var(--accent))}
+.icon{width:44px;height:44px;border-radius:var(--r);background:var(--bg-raised);display:flex;align-items:center;justify-content:center}
+.icon svg{width:22px;height:22px;stroke:var(--c,var(--accent));fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lvl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--c,var(--accent-hover))}
+.card h2{font-size:19px;font-weight:700}
+.card p{color:var(--text-2);font-size:14px;flex:1}
+.card .cta{color:var(--c,var(--accent-hover));font-size:13px;font-weight:700}
+.checkrow{background:linear-gradient(90deg,rgba(20,117,225,.14),rgba(0,231,1,.07));border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;display:flex;align-items:center;gap:20px;text-decoration:none;color:var(--text);transition:border-color .15s}
+.checkrow:hover{border-color:var(--green)}
+.checkrow .icon svg{stroke:var(--green)}
+.checkrow h2{font-size:18px}
+.checkrow p{color:var(--text-2);font-size:14px}
+footer{color:var(--text-2);font-size:13px;text-align:center;margin-top:56px;border-top:1px solid var(--border);padding-top:24px}
+</style>
+</head>
+<body>
+<nav class="topbar">
+  <a class="wordmark" href="index.html">Stake<span>.</span>Engineering</a>
+  <div class="topnav">
+    <a href="index.html" class="active">Overview</a>
+    <a href="level-1-surface.html">Level 1</a>
+    <a href="level-2-details.html">Level 2</a>
+    <a href="level-3-invisible-systems.html">Level 3</a>
+    <a href="pre-ship-checklist.html">Checklist</a>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="draft-pill">Draft · Internal</div>
+  <h1>The Three Levels of Craft</h1>
+  <p class="sub">A self-review guide for engineers and designers. Ask these questions every time you ship.</p>
+
+  <div class="howto">
+    <p><strong>How to use this.</strong> Before you mark a feature "done," walk through the three levels. Level 1 is table stakes. Level 2 is where good products separate from average ones. Level 3 is where you build systems that make the product feel effortless. You won't hit Level 3 on every ticket, but you should always <strong>know which level you stopped at, and why.</strong></p>
+    <p style="margin-top:8px"><strong>Scope note.</strong> This is not a style guide, the design system owns how the product looks. These levels are about how it works, and looks only enter where they change what a person understands or trusts.</p>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="level-1-surface.html" style="--c:#1475e1">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <div class="lvl">Level 1</div>
+      <h2>The Surface</h2>
+      <p>Does the user instantly understand what they see? Most failures here are comprehension bugs, not code bugs.</p>
+      <div class="cta">Read Level 1 →</div>
+    </a>
+    <a class="card" href="level-2-details.html" style="--c:#e9a13b">
+      <div class="icon"><svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></div>
+      <div class="lvl">Level 2</div>
+      <h2>The Details</h2>
+      <p>The moments 99% of people never consciously notice. Invisible when right, infuriating when wrong.</p>
+      <div class="cta">Read Level 2 →</div>
+    </a>
+    <a class="card" href="level-3-invisible-systems.html" style="--c:#9d6fff">
+      <div class="icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>
+      <div class="lvl">Level 3</div>
+      <h2>The Invisible Systems</h2>
+      <p>Real systems working continuously so a "simple" interaction stays simple. If it works, nobody knows it exists.</p>
+      <div class="cta">Read Level 3 →</div>
+    </a>
+  </div>
+
+  <a class="checkrow" href="pre-ship-checklist.html">
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+    <div>
+      <h2>The Two-Minute Pre-Ship Checklist</h2>
+      <p>Twelve questions before every ship. A "no" isn't failure. An unexamined "no" is.</p>
+    </div>
+  </a>
+
+  <footer>Elevate Engineers · Stake Engineering Craft Guide</footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Two-Minute Pre-Ship Checklist | The Three Levels of Craft</title>
+<style>
+:root{
+  --bg:#13232d;--bg-raised:#1a2c38;--bg-card:#213743;--border:#2f4553;
+  --accent:#1475e1;--accent-hover:#3a8ff0;--green:#00e701;
+  --text:#f7fafc;--text-2:#9fbed0;
+  --r-sm:4px;--r:8px;--r-lg:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Proxima Nova',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.65;min-height:100vh}
+.topbar{background:var(--bg-raised);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;align-items:center;gap:24px;position:sticky;top:0;z-index:10}
+.wordmark{font-weight:800;font-size:20px;letter-spacing:.5px;color:var(--text);text-decoration:none}
+.wordmark span{color:var(--accent)}
+.topnav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.topnav a{color:var(--text-2);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:var(--r-sm);transition:all .15s}
+.topnav a:hover,.topnav a.active{color:var(--text);background:var(--bg-card)}
+.wrap{max-width:820px;margin:0 auto;padding:48px 24px 80px}
+.lvl-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,231,1,.1);border:1px solid rgba(0,231,1,.5);color:var(--green);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:999px;margin-bottom:18px}
+h1{font-size:34px;line-height:1.2;font-weight:800;margin-bottom:12px;text-wrap:balance}
+p{text-wrap:pretty}
+.sub{color:var(--text-2);font-size:17px;margin-bottom:32px;padding-bottom:26px;border-bottom:1px solid var(--border)}
+.group{margin-bottom:8px;display:flex;align-items:center;gap:10px;margin-top:26px}
+.group .tag{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--c,var(--accent-hover));background:var(--cs,rgba(20,117,225,.12));border:1px solid var(--c,var(--accent));padding:3px 10px;border-radius:999px}
+.group .tname{color:var(--text-2);font-size:13px;font-weight:600}
+label.item{display:flex;gap:14px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+label.item:hover{border-color:var(--accent)}
+label.item input{appearance:none;-webkit-appearance:none;width:22px;height:22px;min-width:22px;border:2px solid var(--border);border-radius:var(--r-sm);background:var(--bg-raised);cursor:pointer;position:relative;margin-top:1px}
+label.item input:checked{background:var(--green);border-color:var(--green)}
+label.item input:checked::after{content:"✓";color:#0b1a12;font-size:15px;font-weight:900;position:absolute;top:50%;left:50%;transform:translate(-50%,-52%)}
+label.item span{font-size:15px;color:var(--text)}
+label.item.done span{color:var(--text-2);text-decoration:line-through}
+.score{position:sticky;bottom:16px;margin-top:32px;background:var(--bg-raised);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px 22px;display:flex;align-items:center;gap:16px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.bar{flex:1;height:8px;background:var(--bg);border-radius:999px;overflow:hidden}
+.bar div{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--green));transition:width .25s}
+.score b{font-size:14px;white-space:nowrap}
+.note{margin-top:28px;background:rgba(20,117,225,.08);border:1px solid var(--accent);border-left:4px solid var(--accent);border-radius:var(--r);padding:18px 22px;font-size:15px;color:var(--text-2)}
+.note strong{color:var(--text)}
+.pager{display:flex;justify-content:space-between;gap:16px;margin-top:40px}
+.pager a{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:14px 20px;text-decoration:none;color:var(--text);font-size:14px;font-weight:600;transition:border-color .15s;flex:1}
+.pager a:hover{border-color:var(--accent)}
+.pager .dir{display:block;color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.pager .next{text-align:right}
+</style>
+</head>
+<body>
+<nav class="topbar">
+  <a class="wordmark" href="index.html">Stake<span>.</span>Engineering</a>
+  <div class="topnav">
+    <a href="index.html">Overview</a>
+    <a href="level-1-surface.html">Level 1</a>
+    <a href="level-2-details.html">Level 2</a>
+    <a href="level-3-invisible-systems.html">Level 3</a>
+    <a href="pre-ship-checklist.html" class="active">Checklist</a>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="lvl-badge">Before every ship</div>
+  <h1>The Two-Minute Pre-Ship Checklist</h1>
+  <p class="sub">Walk this before you mark a feature "done." Tick what's true.</p>
+
+  <div class="group" style="--c:#1475e1;--cs:rgba(20,117,225,.12)"><span class="tag">Level 1</span><span class="tname">The Surface</span></div>
+  <label class="item"><input type="checkbox"><span>Can a first-time user read every state and control correctly in one glance?</span></label>
+  <label class="item"><input type="checkbox"><span>Did I use established patterns instead of inventing?</span></label>
+
+  <div class="group" style="--c:#e9a13b;--cs:rgba(233,161,59,.12)"><span class="tag">Level 2</span><span class="tname">The Details</span></div>
+  <label class="item"><input type="checkbox"><span>Is every piece of feedback timed to when the user can act on it?</span></label>
+  <label class="item"><input type="checkbox"><span>Did I suppress feedback that would repeat too often?</span></label>
+  <label class="item"><input type="checkbox"><span>Does it hold up on the hardware users actually own?</span></label>
+  <label class="item"><input type="checkbox"><span>Is the user's <em>next</em> action one step away, not a journey away?</span></label>
+
+  <div class="group" style="--c:#9d6fff;--cs:rgba(157,111,255,.12)"><span class="tag">Level 3</span><span class="tname">The Invisible Systems</span></div>
+  <label class="item"><input type="checkbox"><span>Are conflicts (space, attention, data) resolved by a system, not hardcoding?</span></label>
+  <label class="item"><input type="checkbox"><span>Is the data model human, not just technically correct?</span></label>
+  <label class="item"><input type="checkbox"><span>Did I remove every unnecessary wait, responsibly?</span></label>
+  <label class="item"><input type="checkbox"><span>Is their work safe through a crash, refresh, or back button?</span></label>
+  <label class="item"><input type="checkbox"><span>Is every destructive action undoable instead of interrogated?</span></label>
+  <label class="item"><input type="checkbox"><span>Does every fact on screen come from one source of truth?</span></label>
+
+  <div class="score"><b id="count">0 / 12</b><div class="bar"><div id="fill"></div></div><b id="verdict">Nothing examined yet</b></div>
+
+  <div class="note"><strong>A "no" isn't failure. An unexamined "no" is.</strong> Write down which level you stopped at in your PR description. Over time, watch your team's default level rise.</div>
+
+  <div class="note" style="margin-top:12px"><strong>How we know it's working.</strong> Instrument the absence, rage clicks, dead clicks, error rates per flow, p95 interaction latency. If nobody measures the silence, this checklist is opinion.</div>
+
+  <div class="pager">
+    <a href="level-3-invisible-systems.html"><span class="dir">← Back</span>Level 3 · The Invisible Systems</a>
+    <a class="next" href="index.html"><span class="dir">Home</span>Overview</a>
+  </div>
+</main>
+<script>
+const boxes=[...document.querySelectorAll('input[type="checkbox"]')];
+const count=document.getElementById('count'),fill=document.getElementById('fill'),verdict=document.getElementById('verdict');
+function update(){
+  const n=boxes.filter(b=>b.checked).length;
+  boxes.forEach(b=>b.closest('.item').classList.toggle('done',b.checked));
+  count.textContent=n+" / 12";
+  fill.style.width=(n/12*100)+"%";
+  verdict.textContent=n===12?"World class. Ship it.":n>=9?"Nearly there. Examine the gaps":n>=5?"Good. Know why you stopped":"Nothing examined yet";
+}
+boxes.forEach(b=>b.addEventListener('change',update));
+</script>
+</body>
+</html>

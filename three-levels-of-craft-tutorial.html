@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Three Levels of Craft · Interactive Tutorial</title>
+<style>
+  /* Stake PRIME Core tokens: Background #13232d, Accent #1475e1, Primary Text #f7fafc, Secondary Text #9fbed0 */
+  :root{
+    --bg:#13232d; --card:#213743; --ink:#f7fafc; --muted:#9fbed0; --line:#2f4553;
+    --raised:#1a2c38; --accent:#1475e1; --accent-2:#3a8ff0;
+    --l1:#1475e1; --l1-soft:rgba(20,117,225,.14);
+    --l2:#e9a13b; --l2-soft:rgba(233,161,59,.14);
+    --l3:#9d6fff; --l3-soft:rgba(157,111,255,.14);
+    --bad:#ff5470; --bad-soft:rgba(255,84,112,.12);
+    --good:#00e701; --good-soft:rgba(0,231,1,.1);
+    --radius:12px;
+    --font:'Proxima Nova',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important;animation:none!important} }
+  body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+  h1,h2,h3{text-wrap:balance}
+  p{text-wrap:pretty}
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px}
+
+  /* ------- header ------- */
+  header{padding:56px 0 28px;text-align:left}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  h1{font-family:var(--font);font-weight:800;font-size:clamp(34px,5.5vw,52px);line-height:1.05;margin:10px 0 14px;letter-spacing:-.02em}
+  h1 .accent{background:linear-gradient(100deg,var(--l1),var(--l2) 55%,var(--l3));-webkit-background-clip:text;background-clip:text;color:transparent}
+  header p{max-width:620px;color:var(--muted);font-size:17px}
+  .howto{background:var(--raised);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:16px 20px;margin-top:22px;font-size:15px;color:var(--muted)}
+  .howto strong{color:var(--ink)}
+  .ov{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  @media(max-width:680px){.ov{grid-template-columns:1fr}}
+  .ov button{text-align:left;font-family:var(--font);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 15px;cursor:pointer;transition:all .15s}
+  .ov button:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .ov button span{display:block}
+  .ov .ov-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-bottom:4px}
+  .ov .t{font-weight:600;font-size:13.5px;color:var(--ink);line-height:1.4}
+  .ov .d{font-size:12.5px;color:var(--muted);margin-top:6px;font-weight:400}
+  .ov .cta{font-size:12px;font-weight:700;margin-top:10px}
+  .ovcheck{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;margin-top:12px;background:linear-gradient(90deg,rgba(20,117,225,.14),rgba(0,231,1,.07));border:1px solid var(--line);border-radius:10px;padding:15px 18px;font-family:var(--font);font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;transition:border-color .15s;text-align:left}
+  .ovcheck:hover{border-color:var(--good)}
+  .ovcheck small{display:block;font-weight:400;color:var(--muted);font-size:12.5px;margin-top:2px}
+  .ovcheck .arrow{color:var(--good);font-weight:800}
+
+  /* ------- level nav ------- */
+  nav{position:sticky;top:0;z-index:50;background:rgba(19,35,45,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 0}
+  .tabs{display:flex;gap:8px;max-width:880px;margin:0 auto;padding:0 20px;overflow-x:auto}
+  .tab{flex:1;min-width:130px;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 14px;cursor:pointer;font-family:var(--font);font-weight:600;font-size:14px;color:var(--muted);text-align:left;transition:all .18s}
+  .tab small{display:block;font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px;opacity:.75}
+  .tab:hover{border-color:#4a6a7d}
+  .tab:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{outline:3px solid var(--l2);outline-offset:2px}
+  .tab[aria-selected="true"]{color:#fff}
+  #tab-overview[aria-selected="true"]{background:#2f4553;border-color:#557086}
+  #tab-l1[aria-selected="true"]{background:var(--l1);border-color:var(--l1)}
+  #tab-l2[aria-selected="true"]{background:var(--l2);border-color:var(--l2);color:#13232d}
+  #tab-l3[aria-selected="true"]{background:var(--l3);border-color:var(--l3)}
+  #tab-check[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:#13232d}
+
+  /* ------- level sections ------- */
+  .level{display:none;padding:36px 0 20px}
+  .level.active{display:block;animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .level-head{margin-bottom:26px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+  .level-head .eyebrow{color:var(--lvl)}
+  .level-head h2{font-family:var(--font);font-weight:800;font-size:clamp(26px,4vw,36px);letter-spacing:-.015em;margin:6px 0 8px}
+  .level-head>p{color:var(--muted);max-width:640px;margin-bottom:6px}
+  .exit{margin:26px 0 10px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--lvl);border-radius:10px;padding:16px 18px;font-size:15px}
+  .exit strong{font-family:var(--font)}
+
+  /* ------- principle card ------- */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+  .card .num{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--lvl);font-weight:600}
+  .card h3{font-family:var(--font);font-weight:700;font-size:21px;margin:8px 0 10px;letter-spacing:-.01em}
+  .card>.why{color:var(--muted);font-size:15px;max-width:640px}
+
+  /* ------- demo frame ------- */
+  .demo{margin-top:18px;border:1px dashed #3a5464;border-radius:12px;padding:16px;background:var(--raised)}
+  .demo-label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .demo-label::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--lvl);display:inline-block}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:640px){.duo{grid-template-columns:1fr}}
+  .duo.aligned .pane{display:grid;grid-template-rows:subgrid;grid-row:span 3;align-items:start}
+  .eq46{flex-wrap:wrap}
+  @media(min-width:641px){.eq46{flex-wrap:nowrap}}
+  .eq46 .btn{min-height:46px;padding:8px 8px;font-size:13px;white-space:nowrap;flex-shrink:0}
+  .pane{border-radius:10px;padding:14px;border:1px solid var(--line);background:var(--card)}
+  .pane .tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:3px 8px;border-radius:99px;margin-bottom:10px}
+  .pane.bad .tag{background:var(--bad-soft);color:var(--bad)}
+  .pane.good .tag{background:var(--good-soft);color:var(--good)}
+  .pane.bad{border-color:rgba(255,84,112,.35)}
+  .pane.good{border-color:rgba(0,231,1,.3)}
+  .pane p.note{font-size:13px;color:var(--muted);margin-top:10px}
+
+  .tip{margin-top:16px;background:var(--lvl-soft);border-radius:10px;padding:14px 16px;font-size:14.5px;display:flex;gap:10px;align-items:flex-start}
+  .tip b{font-family:var(--font);color:var(--lvl);white-space:nowrap}
+
+  /* generic small controls */
+  .btn{font-family:var(--font);font-weight:600;font-size:14px;border:1px solid #3d5b6c;background:#2f4553;color:var(--ink);border-radius:9px;padding:8px 14px;cursor:pointer;transition:all .15s}
+  .btn:hover{border-color:#557086;background:#3a5464}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.primary:hover{background:var(--accent-2)}
+  .field{width:100%;font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:#13232d;color:var(--ink)}
+  .field::placeholder{color:#6b8898}
+  .err{color:var(--bad);font-size:12.5px;margin-top:6px;min-height:18px}
+  .ok-inline{color:var(--good);font-size:12.5px;margin-top:6px;min-height:18px}
+
+  /* two-state demo */
+  .status-chip{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;padding:5px 12px;border-radius:99px;margin-right:10px}
+  .status-chip .dot{width:8px;height:8px;border-radius:50%}
+  .chip-live{background:var(--good-soft);color:var(--good)}
+  .chip-live .dot{background:var(--good)}
+  .chip-muted{background:var(--bad-soft);color:var(--bad)}
+  .chip-muted .dot{background:var(--bad)}
+  .icon-btn{font-size:20px;width:46px;height:46px;border-radius:12px;border:1px solid #3d5b6c;background:#2f4553;cursor:pointer;transition:border-color .15s}
+  .icon-btn:hover{border-color:#557086;background:#3a5464}
+  .btn:disabled{opacity:.6;cursor:default}
+
+  /* patterns demo */
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:14px}
+  .seg button{border:0;background:var(--card);padding:7px 14px;font:inherit;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border-right:1px solid var(--line)}
+  .seg button:last-child{border-right:0}
+  .seg button:hover{color:var(--ink)}
+  .seg button.on{background:var(--accent);color:#fff}
+  .pattern-stage{min-height:64px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .p-tab{padding:8px 16px;border-radius:9px 9px 0 0;border:1px solid var(--line);border-bottom:2px solid transparent;background:var(--raised);font-size:14px;cursor:pointer;color:var(--ink)}
+  .p-tab:hover{background:#2f4553}
+  .p-tab.on{background:#2f4553;border-bottom-color:var(--l1);font-weight:600}
+  .p-chip{padding:7px 15px;border-radius:99px;border:1px solid var(--line);font-size:13.5px;cursor:pointer;background:var(--card);color:var(--ink)}
+  .p-chip:hover{border-color:#557086}
+  .p-chip.on{background:var(--l1);border-color:var(--l1);color:#fff}
+  .kbd-focus{outline:3px solid var(--l2);outline-offset:2px}
+  .p-radio{display:flex;align-items:center;gap:10px;font-size:14px;padding:5px 0;cursor:pointer;width:100%}
+  .p-radio input{width:16px;height:16px;accent-color:var(--l1);cursor:pointer;margin:0}
+  .p-toggle-list{width:100%;max-width:320px;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:0 14px}
+  .p-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;font-size:14px;border-bottom:1px solid var(--line)}
+  .p-toggle-row:last-child{border-bottom:0}
+  .switch{width:40px;height:23px;border-radius:99px;background:#3a5464;position:relative;cursor:pointer;border:0;transition:background .15s;flex-shrink:0}
+  .switch::after{content:"";position:absolute;top:2.5px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .15s}
+  .switch.on{background:var(--good)}
+  .switch.on::after{left:19px}
+  .stage-caption{font-size:13px;color:var(--muted);margin-top:12px;font-style:italic}
+
+  /* toast stack (noise demo) */
+  .toast-zone{position:relative;min-height:120px}
+  .toast{position:absolute;right:0;background:var(--ink);color:#13232d;font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:8px;animation:pop .2s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
+
+  /* collapse demo */
+  .thread{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .thread .row{padding:9px 12px;font-size:13.5px;border-top:1px solid var(--line);background:var(--card)}
+  .thread .row:first-child{border-top:0}
+  .thread .row.reply{background:var(--raised);padding-left:24px}
+  .linkish{color:var(--l2);font-weight:600;font-size:13.5px;background:none;border:0;cursor:pointer;padding:9px 12px;text-align:left;width:100%}
+  .linkish:hover{text-decoration:underline}
+
+  /* gradient demo */
+  .grad{height:110px;border-radius:10px}
+  .grad.banded{background:linear-gradient(90deg,#1b2a4a 0%,#1b2a4a 12%,#24365c 12%,#24365c 25%,#2d426e 25%,#2d426e 38%,#364e80 38%,#364e80 52%,#3f5a92 52%,#3f5a92 66%,#4866a4 66%,#4866a4 80%,#5172b6 80%,#5172b6 100%)}
+  .grad.smooth{background:radial-gradient(120% 160% at 8% 50%,rgba(120,150,220,.55),transparent 60%),radial-gradient(140% 180% at 30% 40%,rgba(80,110,190,.5),transparent 65%),linear-gradient(90deg,#1b2a4a,#5172b6)}
+
+  /* radii demo */
+  .mini-card{border:1px solid var(--line);padding:14px;background:var(--raised)}
+  .mini-card h4{font-size:14px;margin-bottom:6px;font-family:var(--font)}
+  .mini-card p{font-size:12.5px;color:var(--muted);margin-bottom:10px}
+  .mini-card .avatar{width:34px;height:34px;background:var(--l2-soft);display:inline-block;margin-bottom:8px}
+  .mini-card button{font-size:12.5px;padding:6px 12px;border:1px solid #3d5b6c;background:#2f4553;color:var(--ink);cursor:pointer}
+  .messy{border-radius:2px}.messy .avatar{border-radius:50%}.messy button{border-radius:14px}.messy input{border-radius:0}
+  .tidy{border-radius:12px}.tidy .avatar{border-radius:8px}.tidy button{border-radius:8px}.tidy input{border-radius:8px}
+  .mini-card input{display:block;width:100%;font-size:12.5px;padding:6px 10px;border:1px solid var(--line);margin-bottom:10px;background:#13232d;color:var(--ink)}
+
+  /* map demo */
+  .maprow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:640px){.maprow{grid-template-columns:1fr}}
+  .map{position:relative;height:210px;border-radius:10px;background:linear-gradient(140deg,#1d3742,#16303c);overflow:hidden;border:1px solid var(--line)}
+  .map .lbl{position:absolute;transform:translate(-50%,-50%);font-size:11.5px;font-weight:600;background:#2f4553;border:1px solid #3d5b6c;border-radius:99px;padding:3px 9px;white-space:nowrap;transition:opacity .15s;cursor:pointer}
+  .map .lbl.pinned{background:var(--l3);border-color:var(--l3);color:#fff;z-index:3}
+  .map .lbl.hidden-lbl{opacity:0;pointer-events:none}
+  .map .lbl:focus-visible{outline:3px solid var(--l2);outline-offset:2px}
+  .zoomrow{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:13px;color:var(--muted)}
+  input[type=range]{flex:1;accent-color:var(--l3)}
+
+  /* slots demo */
+  .slotgrid{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+  .slot-item{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:9px;padding:8px 12px;font-size:13.5px;background:var(--card)}
+  .pinbtn{background:none;border:0;cursor:pointer;font-size:16px;line-height:1;color:var(--muted);padding:2px 4px;border-radius:6px;flex-shrink:0;transition:color .15s}
+  .pinbtn:hover,.pinbtn.on{color:var(--l3)}
+  .slot-item .pri{font-family:var(--mono);font-size:10px;color:var(--muted)}
+  .slot-item.pin{border-color:var(--l3);background:var(--l3-soft)}
+  .slot-item.cut{display:none}
+
+  /* dates demo */
+  .group-h{font-family:var(--font);font-weight:700;font-size:13.5px;margin:12px 0 6px}
+  .temp-big{font-size:34px;font-weight:800;letter-spacing:-.02em;margin:2px 0 6px}
+  .photo-row{display:flex;gap:6px;flex-wrap:wrap}
+  .photo{width:52px;height:52px;border-radius:8px;background:linear-gradient(135deg,#C9D6F2,#8FA8DE);display:flex;align-items:flex-end;justify-content:center;font-size:9px;color:#fff;font-weight:600;padding-bottom:3px}
+  .photo.night{background:linear-gradient(135deg,#3A4770,#1E2745)}
+
+  /* like demo */
+  .likebtn{display:flex;width:fit-content;align-items:center;gap:8px;min-height:40px;line-height:1;font-size:14px;font-weight:600;border:1px solid #3d5b6c;background:var(--card);color:var(--ink);border-radius:99px;padding:8px 16px;cursor:pointer}
+  .likebtn:hover{border-color:#557086}
+  .likebtn:disabled{opacity:.7;cursor:default}
+  .likebtn .heart{font-size:16px;transition:transform .15s;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;line-height:1}
+  #failSim{width:16px;height:16px;accent-color:var(--good);cursor:pointer}
+  .likebtn.liked{border-color:rgba(255,84,112,.5);background:var(--bad-soft);color:#ff7b93}
+  .likebtn.liked .heart{transform:scale(1.2)}
+  .spin{width:14px;height:14px;border:2px solid #3a5464;border-top-color:var(--ink);border-radius:50%;animation:sp .7s linear infinite;display:inline-block}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .sync{font-size:11.5px;color:var(--muted)}
+
+  /* prefetch demo */
+  .report{border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:10px;min-height:74px;font-size:13px}
+  .skeleton{height:12px;border-radius:6px;background:linear-gradient(90deg,#24404f,#2f4553,#24404f);background-size:200% 100%;animation:sk 1.1s infinite;margin-bottom:8px}
+  @keyframes sk{to{background-position:-200% 0}}
+  .hint{font-size:11.5px;color:var(--l3);min-height:16px;margin-top:6px}
+
+  /* silence card */
+  .silence{border:1px dashed #3a5464;border-radius:12px;min-height:110px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-style:italic;font-size:14px;margin-top:18px;background:var(--raised)}
+
+  /* checklist */
+  .check-item{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;cursor:pointer;transition:border-color .15s}
+  .check-item:hover{border-color:#557086}
+  .check-item input{width:18px;height:18px;margin-top:2px;accent-color:var(--good);flex-shrink:0}
+  .check-item .lv{font-family:var(--mono);font-size:10px;letter-spacing:.1em;padding:2px 7px;border-radius:99px;margin-right:6px}
+  .lv1{background:var(--l1-soft);color:var(--l1)}.lv2{background:var(--l2-soft);color:var(--l2)}.lv3{background:var(--l3-soft);color:var(--l3)}
+  .progress{height:10px;border-radius:99px;background:#2f4553;overflow:hidden;margin:14px 0 4px}
+  .progress>div{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--l1),var(--l2),var(--l3));transition:width .3s}
+  .prog-note{font-size:13px;color:var(--muted)}
+  .closing{margin:24px 0 8px;font-size:15px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+
+  footer{padding:36px 0 56px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--line);margin-top:40px}
+  .next-btn{margin:24px 0 8px}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="eyebrow">Interactive tutorial · ~15 minutes</div>
+  <h1>The Three Levels <span class="accent">of Craft</span></h1>
+  <p>A hands-on companion to the team guide. Every principle below has a live demo, so instead of reading about bad UX, you get to feel it. Work through one level at a time, and try everything.</p>
+</header>
+
+<nav aria-label="Tutorial levels">
+  <div class="tabs" role="tablist">
+    <button class="tab" id="tab-overview" role="tab" aria-selected="true" onclick="go('overview')"><small>Start here</small>Overview</button>
+    <button class="tab" id="tab-l1" role="tab" aria-selected="false" onclick="go('l1')"><small>Level 1</small>The Surface</button>
+    <button class="tab" id="tab-l2" role="tab" aria-selected="false" onclick="go('l2')"><small>Level 2</small>The Details</button>
+    <button class="tab" id="tab-l3" role="tab" aria-selected="false" onclick="go('l3')"><small>Level 3</small>Invisible Systems</button>
+    <button class="tab" id="tab-check" role="tab" aria-selected="false" onclick="go('check')"><small>Wrap up</small>Pre-Ship Checklist</button>
+  </div>
+</nav>
+
+<!-- ============================================================ OVERVIEW -->
+<section class="level active wrap" id="overview" style="--lvl:var(--accent);--lvl-soft:rgba(20,117,225,.14)">
+  <div class="level-head">
+    <h2>A self-review guide for engineers and designers</h2>
+    <p>Ask these questions every time you ship. Each level is a tab with live demos, work through them in order, then finish with the checklist.</p>
+  </div>
+  <div class="howto"><strong>How to use this.</strong> Before you mark a feature "done," walk through the three levels. Level 1 is table stakes. Level 2 is where good products separate from average ones. Level 3 is where you build systems that make the product feel effortless. You won't hit Level 3 on every ticket, but you should always <strong>know which level you stopped at, and why.</strong><br><br><strong>Scope note.</strong> This is not a style guide, the design system owns how the product looks. These levels are about how it works, and looks only enter where they change what a person understands or trusts.</div>
+  <div class="ov" aria-label="Overview of the three levels">
+    <button onclick="go('l1')"><span class="ov-eyebrow" style="color:var(--l1)">Level 1 · The Surface</span><span class="t">Does the user instantly understand what they see?</span><span class="d">Everything visible on screen. Most failures here are comprehension bugs, not code bugs.</span><span class="cta" style="color:var(--l1)">4 principles, 4 demos →</span></button>
+    <button onclick="go('l2')"><span class="ov-eyebrow" style="color:var(--l2)">Level 2 · The Details</span><span class="t">Have I handled the moments 99% of people never consciously notice?</span><span class="d">Invisible when right, infuriating when wrong. Mostly engineering decisions, not design.</span><span class="cta" style="color:var(--l2)">8 principles, 8 demos →</span></button>
+    <button onclick="go('l3')"><span class="ov-eyebrow" style="color:var(--l3)">Level 3 · Invisible Systems</span><span class="t">Have I built intelligence behind the interaction?</span><span class="d">Real systems keeping "simple" simple at scale. If it works, nobody knows it exists.</span><span class="cta" style="color:var(--l3)">9 principles, 8 demos →</span></button>
+  </div>
+  <button class="ovcheck" onclick="go('check')"><span>The Two-Minute Pre-Ship Checklist<small>Twelve questions before every ship.</small></span><span class="arrow">→</span></button>
+  <button class="btn primary next-btn" onclick="go('l1')">Ascend to Level 1, The Surface →</button>
+</section>
+
+<!-- ============================================================ LEVEL 1 -->
+<section class="level wrap" id="l1" style="--lvl:var(--l1);--lvl-soft:var(--l1-soft)">
+  <div class="level-head">
+    <div class="eyebrow">Level 1 of 3</div>
+    <h2>The Surface</h2>
+    <p>Everything visible on screen. Most failures here aren't code bugs, they're comprehension bugs. The user can see everything and still not understand it. Four principles, four demos.</p>
+  </div>
+
+  <!-- 1.1 two-state -->
+  <div class="card">
+    <div class="num">Principle 1.1</div>
+    <h3>Solve the two-state problem</h3>
+    <p class="why">Any control that switches between states can show either the current state or the action that will happen. Mixing those up makes users guess. Try both versions below and notice how you feel.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, click both microphone controls a few times</div>
+      <div class="duo aligned">
+        <div class="pane bad">
+          <span class="tag">Ambiguous</span>
+          <div><button class="icon-btn" id="badMic" aria-label="microphone toggle">🎤</button></div>
+          <p class="note" id="badMicQ">Quick, is the mic on or off right now? Does the icon show the state, or the action?</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Clear</span>
+          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px">
+            <span class="status-chip chip-live" id="goodChip"><span class="dot"></span><span id="goodChipTxt">Mic is live</span></span>
+            <button class="btn" id="goodMicBtn">Mute mic</button>
+          </div>
+          <p class="note">Status and action are separated. The chip tells you where things are, the button tells you what will happen. Zero guessing.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tip"><b>Tip</b><span>If one element must do both jobs, pick one convention (icon = current state) and enforce it product-wide. If the stakes are high, split status and action into two elements.</span></div>
+  </div>
+
+  <!-- 1.2 patterns -->
+  <div class="card">
+    <div class="num">Principle 1.2</div>
+    <h3>Use established patterns instead of inventing</h3>
+    <p class="why">Users decode familiar patterns in a fraction of a second because they've seen them thousands of times. The exact same three items mean completely different things depending on the pattern you wrap them in. Switch between framings below.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, reframe identical content</div>
+      <div class="seg" role="group" aria-label="Pattern chooser">
+        <button class="on" onclick="setPattern(this,'tabs')">Tabs</button>
+        <button onclick="setPattern(this,'radios')">Radio buttons</button>
+        <button onclick="setPattern(this,'filters')">Filter chips</button>
+        <button onclick="setPattern(this,'toggles')">Toggles</button>
+      </div>
+      <div class="pattern-stage" id="patternStage"></div>
+      <p class="stage-caption" id="patternCaption"></p>
+    </div>
+    <div class="tip"><b>Tip</b><span>Before inventing a new interaction, ask if an existing pattern gets you 90% there. If you truly need something novel, it must survive a 5-second glance test with someone who has never seen it.</span></div>
+  </div>
+
+  <!-- 1.3 presentation -->
+  <div class="card">
+    <div class="num">Principle 1.3</div>
+    <h3>Let presentation communicate behavior</h3>
+    <p class="why">Users should know what's clickable, what's switchable, and what's purely informational from shape and grouping alone. Below, one version gives you no clues and the other needs none.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, guess what's interactive, then hover or tap to find out</div>
+      <div class="duo aligned">
+        <div class="pane bad">
+          <span class="tag">No affordances</span>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:14px">
+            <span class="flat-item" data-act="1" style="cursor:default">Export data</span>
+            <span class="flat-item" data-act="0" style="cursor:default">Last synced 2h ago</span>
+            <span class="flat-item" data-act="1" style="cursor:default">Share</span>
+          </div>
+          <p class="note" id="flatResult">Everything looks the same, so nothing looks tappable. Which of these are buttons?</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Self-evident</span>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <button class="btn primary" onclick="flash(this)">Export data</button>
+            <button class="btn" onclick="flash(this)">Share</button>
+            <span style="font-size:12.5px;color:var(--muted)">Last synced 2h ago</span>
+          </div>
+          <p class="note">Buttons look like buttons, metadata looks like metadata. No labels needed to explain any of it.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tip"><b>Tip</b><span>Do a "squint test." Blur your eyes at the screen. If interactive elements don't visually separate from static ones, your presentation isn't carrying its weight.</span></div>
+  </div>
+
+  <!-- 1.4 manual -->
+  <div class="card">
+    <div class="num">Principle 1.4</div>
+    <h3>It must work without an instruction manual</h3>
+    <p class="why">If you have to write help text to explain a control, the control is probably wrong. Hover the cryptic buttons below, then look at the fixed version.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, hover the icons on the left</div>
+      <div class="duo aligned">
+        <div class="pane bad">
+          <span class="tag">Needs a manual</span>
+          <div style="display:flex;gap:8px">
+            <button class="icon-btn" title="Archives the item and removes it from your active view">◈</button>
+            <button class="icon-btn" title="Duplicates the item into your drafts folder">⧉</button>
+            <button class="icon-btn" title="Sends the item to everyone watching this project">◬</button>
+          </div>
+          <p class="note">Each one needed a tooltip essay. Tooltips are the interface admitting it failed.</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Self-explaining</span>
+          <div class="eq46" style="display:flex;gap:6px">
+            <button class="btn" onclick="flash(this)">Archive</button>
+            <button class="btn" onclick="flash(this)">Duplicate</button>
+            <button class="btn" onclick="flash(this)">Notify watchers</button>
+          </div>
+          <p class="note">A word beats a mystery glyph. Icons are fine once a pattern is universally known, not before.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tip"><b>Tip</b><span>Every time you reach for a tooltip or helper text, first try renaming, relabeling, or restructuring the control so the explanation becomes unnecessary.</span></div>
+  </div>
+
+  <div class="exit"><strong>Level 1 exit criteria.</strong> A first-time user understands the state of the system and what every control will do, within a second of looking at it.</div>
+  <button class="btn primary next-btn" onclick="go('l2')">Ascend to Level 2, The Details →</button>
+</section>
+
+<!-- ============================================================ LEVEL 2 -->
+<section class="level wrap" id="l2" style="--lvl:var(--l2);--lvl-soft:var(--l2-soft)">
+  <div class="level-head">
+    <div class="eyebrow">Level 2 of 3</div>
+    <h2>The Details</h2>
+    <p>Invisible when they're right, infuriating when they're wrong. This level decides whether a product feels good or quietly frustrates people every day. Most of these are engineering decisions, not design decisions. Eight principles, eight demos.</p>
+  </div>
+
+  <!-- 2.1 timing -->
+  <div class="card">
+    <div class="num">Principle 2.1</div>
+    <h3>Time feedback to when the user can act on it</h3>
+    <p class="why">Validating too early punishes people for not being finished. Validating too late hides requirements they needed upfront. Type your email into both fields and feel the difference.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, type an email address into both fields</div>
+      <div class="duo">
+        <div class="pane bad">
+          <span class="tag">Validates every keystroke</span>
+          <input class="field" id="badEmail" type="text" placeholder="you@company.com" aria-label="bad email field">
+          <div class="err" id="badEmailErr"></div>
+          <p class="note">It screams "invalid" while you're mid-word. You did nothing wrong, you just weren't finished.</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Validates when you leave the field</span>
+          <input class="field" id="goodEmail" type="text" placeholder="you@company.com" aria-label="good email field">
+          <div class="err" id="goodEmailErr"></div>
+          <p class="note">Silent while you type, honest when you're done, and the error clears the moment you start fixing it.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tip"><b>Tip</b><span>Flip the rule for progressive requirements like password strength, where live per-keystroke feedback helps. The principle isn't "validate on blur," it's "fire feedback when the user can act on it."</span></div>
+  </div>
+
+  <!-- 2.2 noise -->
+  <div class="card">
+    <div class="num">Principle 2.2</div>
+    <h3>Suppress feedback that would become noise</h3>
+    <p class="why">Feedback that's helpful once becomes irritating at high frequency. Silence is sometimes the correct feedback. Type a sentence into both editors below.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, type a full sentence in each box</div>
+      <div class="duo">
+        <div class="pane bad">
+          <span class="tag">Announces every autosave</span>
+          <div class="toast-zone">
+            <textarea class="field" rows="2" id="noisyBox" placeholder="Start typing..." aria-label="noisy editor"></textarea>
+            <div id="toastStack"></div>
+          </div>
+          <p class="note">Every save is a celebration. By the fifth toast you hate it.</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Saves quietly</span>
+          <textarea class="field" rows="2" id="quietBox" placeholder="Start typing..." aria-label="quiet editor"></textarea>
+          <div class="ok-inline" id="quietStatus"></div>
+          <p class="note">One small, passive indicator. It informs without interrupting.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tip"><b>Tip</b><span>For any confirmation, animation, or notification, estimate how many times a heavy user sees it per day. Above roughly ten, downgrade it, batch it, or turn it off.</span></div>
+  </div>
+
+  <!-- 2.3 placement -->
+  <div class="card">
+    <div class="num">Principle 2.3</div>
+    <h3>Place controls for the user's next intent</h3>
+    <p class="why">Don't just position controls for the current action, position them for what the user does immediately after. Expand the replies in both threads, then try to close them again.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, open and then close the replies in each thread</div>
+      <div class="duo">
+        <div class="pane bad">
+          <span class="tag">Control runs away</span>
+          <div class="thread" id="badThread">
+            <div class="row"><strong>ade_dev</strong> Ship it, this looks great 🚀</div>
+            <button class="linkish" id="badExpand">Show 4 replies</button>
+          </div>
+          <p class="note">The close control moved to the bottom, so closing requires a scroll and a hunt. Friction compounds on every use.</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Control stays put</span>
+          <div class="thread" id="goodThread">
+            <div class="row"><strong>ade_dev</strong> Ship it, this looks great 🚀</div>
+            <button class="linkish" id="goodExpand">Show 4 replies</button>
+            <div id="goodReplies"></div>
+          </div>
+          <p class="note">Open, skim, close, all in two clicks in the same spot. The control never moves under your cursor.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tip"><b>Tip</b><span>Map the full loop, not the single click. Ask "where is the finger or cursor when the user wants to undo, close, or repeat this?" and put the control there.</span></div>
+  </div>
+
+  <!-- 2.4 hardware -->
+  <div class="card">
+    <div class="num">Principle 2.4</div>
+    <h3>Account for real hardware</h3>
+    <p class="why">Screens have physical quirks that never show up on your dev monitor. Subtle gradients can band into ugly stripes, and pure black backgrounds can smear on some displays during scrolling. Compare the two gradients below.</p>
+    <div class="demo">
+      <div class="demo-label">Look closely, same start and end colors</div>
+      <div class="duo aligned">
+        <div class="pane bad">
+          <span class="tag">Color banding</span>
+          <div class="grad banded" role="img" aria-label="gradient with visible stepped bands"></div>
+          <p class="note">Not enough in-between shades, so the transition breaks into visible steps.</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Layered and smooth</span>
+          <div class="grad smooth" role="img" aria-label="smooth layered gradient"></div>
+          <p class="note">Several soft gradients stacked on top of each other hide the steps and read as one smooth surface.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tip"><b>Tip</b><span>Keep dark-mode backgrounds slightly above pure black, add subtle noise or layered gradients to smooth transitions, and always review visuals on the cheapest and the newest devices your users actually own.</span></div>
+  </div>
+
+  <!-- 2.5 touches -->
+  <div class="card">
+    <div class="num">Principle 2.5</div>
+    <h3>Add the small touches that cost almost nothing</h3>
+    <p class="why">Tiny conveniences take an hour to build and quietly signal that someone cared. Type the sequences below and watch the input meet you halfway.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, type -&gt; or (c) or ... in the field</div>
+      <input class="field" id="delightBox" type="text" placeholder="Try typing: A -> B, (c) 2026, wait..." aria-label="auto-replace demo field">
+      <div class="ok-inline" id="delightNote"></div>
+    </div>
+    <div class="tip"><b>Tip</b><span>Keep a running "one-hour delights" list in your backlog. Smart replacements, sensible defaults, remembered preferences. Ship one with every release.</span></div>
+  </div>
+
+  <!-- 2.6 consistency -->
+  <div class="card">
+    <div class="num">Principle 2.6</div>
+    <h3>Keep the visual language deliberate and consistent</h3>
+    <p class="why">Shape, softness, and spacing aren't decoration, they set how coherent the product feels. Both cards below use the same content and colors. Only the consistency differs.</p>
+    <div class="demo">
+      <div class="demo-label">Compare, every corner tells a different story on the left</div>
+      <div class="duo">
+        <div class="pane bad">
+          <span class="tag">Each element made its own rules</span>
+          <div class="mini-card messy">
+            <span class="avatar"></span>
+            <h4>Invite a teammate</h4>
+            <p>They'll get access to this workspace.</p>
+            <input type="text" placeholder="name@company.com">
+            <button>Send invite</button>
+          </div>
+        </div>
+        <div class="pane good">
+          <span class="tag">One system, applied everywhere</span>
+          <div class="mini-card tidy">
+            <span class="avatar"></span>
+            <h4>Invite a teammate</h4>
+            <p>They'll get access to this workspace.</p>
+            <input type="text" placeholder="name@company.com">
+            <button>Send invite</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tip"><b>Tip</b><span>Define radii, spacing, and type sizes as shared tokens, never as per-component magic numbers. Nested elements should use progressively smaller radii from the same scale so corners stay concentric.</span></div>
+  </div>
+
+  <!-- 2.7 tolerance -->
+  <div class="card">
+    <div class="num">Principle 2.7</div>
+    <h3>Accept input the way humans give it</h3>
+    <p class="why">People paste phone numbers with spaces, type promo codes in lowercase, and leave trailing spaces everywhere. Normalize before you validate, and never reject input a human considers obviously valid. Enter the code with sloppy formatting in both fields.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, enter save20 with stray spaces or caps in both fields</div>
+      <div class="duo">
+        <div class="pane bad">
+          <span class="tag">Exact match only</span>
+          <input class="field" id="badCode" type="text" placeholder="Promo code, try:  save20 " aria-label="strict promo code field">
+          <div class="err" id="badCodeMsg"></div>
+          <p class="note">It wanted SAVE20, exactly. The user typed the right code and got rejected anyway.</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Normalizes first</span>
+          <input class="field" id="goodCode" type="text" placeholder="Promo code, try:  save20 " aria-label="forgiving promo code field">
+          <div class="err" id="goodCodeMsg"></div>
+          <p class="note">Trim, uppercase, then check. The parser forgives, so the person never knows there was anything to forgive.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tip"><b>Tip</b><span>Be liberal in what you accept and conservative in what you store. Normalize, then validate, and log what real users actually paste so the parser keeps learning.</span></div>
+  </div>
+
+  <!-- 2.8 focus -->
+  <div class="card">
+    <div class="num">Principle 2.8</div>
+    <h3>Send focus somewhere on purpose</h3>
+    <p class="why">Not everyone drives with a mouse. Tab walks the keyboard through the controls, and whatever holds focus is where the next key press lands. Delete the focused thing and the browser silently drops the keyboard at the top of the page, unless you send it somewhere on purpose. Delete an item in each list, then read the focus line.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, delete an item in each list, then read the focus line</div>
+      <div class="duo">
+        <div class="pane bad">
+          <span class="tag">Focus falls off</span>
+          <div class="thread" id="badFocusList"></div>
+          <p class="note" id="badKbd" style="min-height:18px">⌨ Focus: nowhere yet, click or Tab to a Delete</p>
+          <p class="note" id="badFocusNote">Delete an item, then read the focus line.</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Focus lands next</span>
+          <div class="thread" id="goodFocusList"></div>
+          <p class="note" id="goodKbd" style="min-height:18px">⌨ Focus: nowhere yet, click or Tab to a Delete</p>
+          <p class="note" id="goodFocusNote">Same action, but focus is sent to the next item on purpose.</p>
+        </div>
+      </div>
+      <button class="btn" id="focusReset" style="margin-top:10px">↺ Reset demo</button>
+    </div>
+    <div class="tip"><b>Tip</b><span>After every destructive or async action ask, where is the keyboard now? Move focus to the nearest meaningful control and announce the result with a live region.</span></div>
+  </div>
+
+  <div class="exit"><strong>Level 2 exit criteria.</strong> Someone using the feature 50 times a day would have zero micro-annoyances, and couldn't tell you why it feels smooth, because nothing ever got in their way.</div>
+  <button class="btn primary next-btn" onclick="go('l3')">Ascend to Level 3, Invisible Systems →</button>
+</section>
+
+<!-- ============================================================ LEVEL 3 -->
+<section class="level wrap" id="l3" style="--lvl:var(--l3);--lvl-soft:var(--l3-soft)">
+  <div class="level-head">
+    <div class="eyebrow">Level 3 of 3</div>
+    <h2>The Invisible Systems</h2>
+    <p>Real systems that keep "simple" simple at scale. If this level works, the user never knows it exists. Nine principles, eight demos, and one deliberate silence.</p>
+  </div>
+
+  <!-- 3.1 dynamic conflicts -->
+  <div class="card">
+    <div class="num">Principle 3.1</div>
+    <h3>Resolve conflicts dynamically, not statically</h3>
+    <p class="why">Wherever elements compete for space, a live system should adapt to actual content and context. Hardcoded values break on edge cases you didn't anticipate. Drag the zoom slider and watch both maps.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, save a place, then zoom out with the slider</div>
+      <div class="maprow">
+        <div class="pane bad" style="padding:10px">
+          <span class="tag">No collision system</span>
+          <div class="map" id="badMap"></div>
+        </div>
+        <div class="pane good" style="padding:10px">
+          <span class="tag">Live collision detection</span>
+          <div class="map" id="goodMap"></div>
+        </div>
+      </div>
+      <div class="zoomrow"><span>Zoomed out</span><input type="range" id="zoom" min="30" max="100" value="100" aria-label="zoom level"><span>Zoomed in</span></div>
+      <p class="stage-caption" id="mapStatus"></p>
+      <p class="stage-caption">On the right, a small system continuously checks which labels would overlap and hides the less important ones. The purple saved label is a deliberate exception, it always survives, and you decide which place earns it (that's principle 3.2 in action).</p>
+    </div>
+    <div class="tip"><b>Tip</b><span>Find your product's collision points, like long names, crowded lists, small screens, and translations that double string length. Then write logic that measures and adapts instead of constants that assume.</span></div>
+  </div>
+
+  <!-- 3.2 hierarchy -->
+  <div class="card">
+    <div class="num">Principle 3.2</div>
+    <h3>Rank by relevance, with deliberate exceptions</h3>
+    <p class="why">When there's too much to show, you need a ranking of what matters, plus rule-breaking exceptions chosen on purpose. Pin what you care about, then shrink the space and watch what survives.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, pin the item you care about, then reduce the slots</div>
+      <div class="seg" role="group" aria-label="slot count">
+        <button onclick="setSlots(this,5)" class="on">5 slots</button>
+        <button onclick="setSlots(this,3)">3 slots</button>
+        <button onclick="setSlots(this,2)">2 slots</button>
+      </div>
+      <div class="slotgrid" id="slotgrid"></div>
+      <p class="stage-caption">Items drop in reverse priority order as space shrinks, except the one you pinned. You chose it, so it breaks the ranking on purpose.</p>
+    </div>
+    <div class="tip"><b>Tip</b><span>Write your ranking down as an explicit ordered list in the code, with a comment for every exception explaining whose goal it serves. Unexplained exceptions become bugs later.</span></div>
+  </div>
+
+  <!-- 3.3 human data -->
+  <div class="card">
+    <div class="num">Principle 3.3</div>
+    <h3>Make the data model human, not literal</h3>
+    <p class="why">Systems that are technically correct can still be humanly wrong. Dates, boundaries, and groupings should match how people experience life, not how the database stores it. Toggle the grouping below.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, switch between the two groupings</div>
+      <div class="seg" role="group" aria-label="grouping mode">
+        <button class="on" onclick="setDates(this,'literal')">Literal (calendar day)</button>
+        <button onclick="setDates(this,'human')">Human (how you remember it)</button>
+      </div>
+      <div id="dateStage"></div>
+      <p class="stage-caption" id="dateCaption"></p>
+    </div>
+    <div class="demo">
+      <div class="demo-label">Try it, add wind to the same sensor reading</div>
+      <div class="duo">
+        <div class="pane bad">
+          <span class="tag">The measurement</span>
+          <div class="temp-big">8°C</div>
+          <p class="note">The sensor is right, and it never changes. This is what the API returns.</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Feels like</span>
+          <div class="temp-big" id="feelsTemp">7°C</div>
+          <p class="note">Wind modeled in, perception over reading. Same sensor, human number.</p>
+        </div>
+      </div>
+      <div class="zoomrow"><span>Calm</span><input type="range" id="wind" min="5" max="60" value="5" aria-label="wind speed in kilometres per hour"><span>Windy</span></div>
+      <p class="stage-caption" id="windCaption"></p>
+    </div>
+    <div class="tip"><b>Tip</b><span>Hunt for the boundaries in your data, like midnight, week starts, timezones, session gaps, and "recent." At each one, ask whether a person would describe it this way. If not, model the person, not the timestamp.</span></div>
+  </div>
+
+  <!-- 3.4 optimistic -->
+  <div class="card">
+    <div class="num">Principle 3.4</div>
+    <h3>Stop making users wait for the server</h3>
+    <p class="why">Assume success, update instantly, sync in the background, and only interrupt when something actually fails. Click both hearts, then try the failure case.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, like both posts, then tick "simulate failure" and like again</div>
+      <div class="duo">
+        <div class="pane bad">
+          <span class="tag">Waits for the round trip</span>
+          <button class="likebtn" id="badLike"><span class="heart">♡</span><span id="badLikeTxt">Like</span></button>
+          <p class="note">A spinner for something that succeeds 99.9% of the time. Every wait is a small tax on trust.</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Optimistic update</span>
+          <button class="likebtn" id="goodLike"><span class="heart">♡</span><span id="goodLikeTxt">Like</span></button>
+          <div class="sync" id="goodSync" style="min-height:16px;margin-top:6px"></div>
+          <p class="note">Instant response, quiet background sync, and a graceful rollback on the rare failure.</p>
+        </div>
+      </div>
+      <label style="display:flex;gap:8px;align-items:center;font-size:13px;margin-top:12px;color:var(--muted)"><input type="checkbox" id="failSim"> Simulate network failure</label>
+    </div>
+    <div class="tip"><b>Tip</b><span>Every spinner is a decision. Is the wait necessary, and if you remove it, what's the rollback path? Optimistic UI without rollback is just lying.</span></div>
+  </div>
+
+  <!-- 3.5 anticipation -->
+  <div class="card">
+    <div class="num">Principle 3.5</div>
+    <h3>Anticipate the next move, responsibly</h3>
+    <p class="why">Preparing likely next steps in advance makes everything feel instant, but anticipation has costs in resources, privacy, and trust. Hover the second button for a moment before clicking it.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, click the first button cold, then hover the second one for a second before clicking</div>
+      <div class="duo">
+        <div class="pane bad">
+          <span class="tag">Loads on demand</span>
+          <button class="btn" id="coldOpen">Open quarterly report</button>
+          <div class="report" id="coldReport">Nothing loaded yet.</div>
+        </div>
+        <div class="pane good">
+          <span class="tag">Prefetches on hover intent</span>
+          <button class="btn" id="warmOpen">Open quarterly report</button>
+          <div class="hint" id="warmHint"></div>
+          <div class="report" id="warmReport">Nothing loaded yet.</div>
+        </div>
+      </div>
+      <p class="stage-caption">Hovering signals intent, so the system starts fetching before the click. If you clicked without hovering, it loads normally. Nothing was wasted, nothing was assumed.</p>
+      <button class="btn" id="prefetchReset" style="margin-top:10px">↺ Reset demo</button>
+    </div>
+    <div class="tip"><b>Tip</b><span>Prefetch on strong intent signals (hover, focus, visible-next-step), not on speculation. For every speed trick, name what the user pays in bandwidth, battery, or privacy, and confirm it's worth it.</span></div>
+  </div>
+
+  <!-- 3.6 never lose work -->
+  <div class="card">
+    <div class="num">Principle 3.6</div>
+    <h3>Never lose their work, or their place</h3>
+    <p class="why">Crashes, refreshes, and accidental backs happen mid-thought. A system that saves continuously makes the accident free. Type in both boxes, then hit the crash button.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, type in both boxes, then crash the app</div>
+      <div class="duo">
+        <div class="pane bad">
+          <span class="tag">Nothing saved</span>
+          <textarea class="field" rows="2" id="fragileBox" placeholder="Type something important..." aria-label="unsaved editor"></textarea>
+          <p class="note">One crash and it's gone. The user pays for the missing autosave.</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Continuously saved</span>
+          <textarea class="field" rows="2" id="durableBox" placeholder="Type something important..." aria-label="autosaving editor"></textarea>
+          <div class="ok-inline" id="durableStatus"></div>
+          <p class="note">Saved on every keystroke, restored after the crash, cursor and all.</p>
+        </div>
+      </div>
+      <button class="btn" id="crashBtn" style="margin-top:10px">💥 Simulate a crash</button>
+      <p class="stage-caption" id="crashCaption">Type in both boxes, then crash the app.</p>
+    </div>
+    <div class="tip"><b>Tip</b><span>Save on every meaningful change, not on submit. Restore content, scroll, and step on return, and treat refresh as navigation, not amnesia.</span></div>
+  </div>
+
+  <!-- 3.7 undo -->
+  <div class="card">
+    <div class="num">Principle 3.7</div>
+    <h3>Offer undo instead of asking permission</h3>
+    <p class="why">Every "are you sure?" is a tax the system charges because it can't reverse anything. Reversible actions don't need permission. Delete the file in both panes, then change your mind.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, delete the file in both panes, then change your mind</div>
+      <div class="duo">
+        <div class="pane bad">
+          <span class="tag">Interrogates first</span>
+          <div class="thread">
+            <div class="row" id="badFileRow" style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span>Q3 forecast.xlsx</span><button class="btn" id="badDel" style="padding:4px 10px;font-size:12.5px">Delete</button></div>
+            <div class="row" id="badConfirmRow" style="display:none;justify-content:space-between;align-items:center;gap:10px"><span>Delete this file?</span><span style="display:flex;gap:6px"><button class="btn" id="badYes" style="padding:4px 10px;font-size:12.5px">Delete</button><button class="btn" id="badNo" style="padding:4px 10px;font-size:12.5px">Cancel</button></span></div>
+          </div>
+          <p class="note" id="badUndoNote">Every delete interrogates you, even when you're sure.</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Reversible instead</span>
+          <div class="thread">
+            <div class="row" id="goodFileRow" style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span>Q3 forecast.xlsx</span><button class="btn" id="goodDel" style="padding:4px 10px;font-size:12.5px">Delete</button></div>
+            <div class="row" id="goodUndoRow" style="display:none;justify-content:space-between;align-items:center;gap:10px"><span>File deleted.</span><button class="btn" id="goodUndo" style="padding:4px 10px;font-size:12.5px">Undo · 5</button></div>
+          </div>
+          <p class="note" id="goodUndoNote">Deleted instantly, reversible for five seconds.</p>
+        </div>
+      </div>
+      <button class="btn" id="undoReset" style="margin-top:10px">↺ Reset demo</button>
+    </div>
+    <div class="tip"><b>Tip</b><span>Confirmation is for the irreversible. If a soft delete and a grace window can make it reversible, do that instead, and reserve dialogs for the few actions that truly can't come back.</span></div>
+  </div>
+
+  <!-- 3.8 one truth -->
+  <div class="card">
+    <div class="num">Principle 3.8</div>
+    <h3>Keep one truth on screen</h3>
+    <p class="why">When the same fact renders in two places, only architecture keeps them agreeing. Spend from the balance in both apps and watch the gap.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, spend from the balance in both apps</div>
+      <div class="duo">
+        <div class="pane bad">
+          <span class="tag">Two fetches, two truths</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:9px;padding:7px 12px;font-size:12.5px;margin-bottom:8px"><span>Header</span><strong id="badBalA">$120</strong></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:9px;padding:7px 12px;font-size:12.5px"><span>Stats card</span><strong id="badBalB">$120</strong></div>
+          <div style="margin-top:10px"><button class="btn" id="badSpend">Spend $10</button></div>
+          <p class="note" id="badTruthNote">Each widget fetches the balance on its own schedule.</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">One store, two views</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:9px;padding:7px 12px;font-size:12.5px;margin-bottom:8px"><span>Header</span><strong id="goodBalA">$120</strong></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:9px;padding:7px 12px;font-size:12.5px"><span>Stats card</span><strong id="goodBalB">$120</strong></div>
+          <div style="margin-top:10px"><button class="btn" id="goodSpend">Spend $10</button></div>
+          <p class="note" id="goodTruthNote">Both numbers render from the same store.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tip"><b>Tip</b><span>Render every occurrence of a fact from one store. If two components fetch the same number separately, you've built a race condition the user can see.</span></div>
+  </div>
+
+  <!-- 3.9 silence -->
+  <div class="card">
+    <div class="num">Principle 3.9</div>
+    <h3>If it works, nobody will ever notice</h3>
+    <p class="why">This one has no demo, and that's the point. Every system on this level is invisible when it succeeds, from collision handling and ranking to human grouping, optimistic sync, and prefetching. The compliment for Level 3 work is silence.</p>
+    <div class="silence">This space intentionally left empty. That's what great Level 3 work looks like.</div>
+    <div class="tip"><b>Tip</b><span>Measure Level 3 by absence. Fewer support tickets, fewer rage-clicks, fewer "why is this slow" comments. If nobody mentions the feature, you probably nailed it.</span></div>
+  </div>
+
+  <div class="exit"><strong>Level 3 exit criteria.</strong> The interaction stays simple and instant under load, at scale, and at the edge cases, because a real system, not luck, is holding it up.</div>
+  <button class="btn primary next-btn" onclick="go('check')">Finish with the Pre-Ship Checklist →</button>
+</section>
+
+<!-- ============================================================ CHECKLIST -->
+<section class="level wrap" id="check" style="--lvl:var(--ink);--lvl-soft:rgba(247,250,252,.08)">
+  <div class="level-head">
+    <div class="eyebrow">Wrap up</div>
+    <h2>The Two-Minute Pre-Ship Checklist</h2>
+    <p>Run through this before you mark anything "done." Tick what's true. A "no" isn't failure. An unexamined "no" is.</p>
+  </div>
+
+  <div class="progress" aria-hidden="true"><div id="progBar"></div></div>
+  <p class="prog-note" id="progNote">0 of 12 examined</p>
+
+  <div id="checkList"></div>
+
+  <div class="closing">
+    <strong style="font-family:var(--font)">Make it a habit.</strong> Write down which level you stopped at in your PR description, and why. Over time, watch your team's default level rise. That's the whole game. Not hitting Level 3 every time, but never stopping at Level 1 without knowing it.
+  </div>
+  <div class="closing">
+    <strong style="font-family:var(--font)">How we know it's working.</strong> Instrument the absence, rage clicks, dead clicks, error rates per flow, p95 interaction latency. If nobody measures the silence, this checklist is opinion.
+  </div>
+  <button class="btn next-btn" onclick="go('l1')">↺ Back to Level 1</button>
+</section>
+
+<footer><div class="wrap">The Three Levels of Craft · Interactive tutorial · Pair this with the written guide for reviews and PR templates.</div></footer>
+
+<script>
+/* ---------- navigation ---------- */
+function go(id){
+  document.querySelectorAll('.level').forEach(s=>s.classList.toggle('active',s.id===id));
+  document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected', t.id==='tab-'+id));
+  window.scrollTo({top:0});
+}
+function flash(btn){const o=btn.textContent;btn.style.minWidth=btn.offsetWidth+'px';btn.textContent='Done ✓';btn.disabled=true;setTimeout(()=>{btn.textContent=o;btn.disabled=false},900)}
+
+/* ---------- 1.1 two-state ---------- */
+let badOn=true, goodOn=true;
+badMic.addEventListener('click',()=>{badOn=!badOn;badMic.textContent=badOn?'🎤':'🔇';
+  badMicQ.textContent='So... does '+badMic.textContent+' mean the mic IS '+(badOn?'on':'off')+', or that clicking will turn it '+(badOn?'off':'on')+'? Exactly.';});
+goodMicBtn.addEventListener('click',()=>{goodOn=!goodOn;
+  goodChip.className='status-chip '+(goodOn?'chip-live':'chip-muted');
+  goodChipTxt.textContent=goodOn?'Mic is live':'Mic is muted';
+  goodMicBtn.textContent=goodOn?'Mute mic':'Unmute mic';});
+
+/* ---------- 1.2 patterns ---------- */
+const items=['Overview','Activity','Settings'];
+const captions={
+  tabs:'Now you expect these to switch the content below, and only one can be active.',
+  radios:'Now you expect these to record one choice, picking another replaces it, and nothing else on the page changes.',
+  filters:'Now you expect these to filter a list, and several can be active at once.',
+  toggles:'Now you expect these to turn features on and off, independently.'
+};
+function renderPattern(mode){
+  const s=document.getElementById('patternStage');s.innerHTML='';
+  if(mode==='tabs'){items.forEach((t,i)=>{const b=document.createElement('button');b.className='p-tab'+(i===0?' on':'');b.textContent=t;
+    b.onclick=()=>{s.querySelectorAll('.p-tab').forEach(x=>x.classList.remove('on'));b.classList.add('on')};s.appendChild(b)})}
+  if(mode==='radios'){items.forEach((t,i)=>{const lab=document.createElement('label');lab.className='p-radio';
+    const r=document.createElement('input');r.type='radio';r.name='patternRadio';r.checked=i===0;
+    const sp=document.createElement('span');sp.textContent=t;
+    lab.append(r,sp);s.appendChild(lab)})}
+  if(mode==='filters'){items.forEach((t,i)=>{const b=document.createElement('button');b.className='p-chip'+(i===0?' on':'');b.textContent=t;
+    b.onclick=()=>b.classList.toggle('on');s.appendChild(b)})}
+  if(mode==='toggles'){const list=document.createElement('div');list.className='p-toggle-list';
+    items.forEach((t,i)=>{const row=document.createElement('div');row.className='p-toggle-row';
+    const lbl=document.createElement('span');lbl.textContent=t;lbl.id='tglLbl'+i;
+    const sw=document.createElement('button');sw.className='switch'+(i===0?' on':'');sw.setAttribute('role','switch');sw.setAttribute('aria-checked',i===0?'true':'false');sw.setAttribute('aria-labelledby','tglLbl'+i);
+    sw.onclick=()=>{sw.classList.toggle('on');sw.setAttribute('aria-checked',String(sw.classList.contains('on')))};
+    row.append(lbl,sw);list.appendChild(row)});s.appendChild(list)}
+  document.getElementById('patternCaption').textContent=captions[mode];
+}
+function setPattern(btn,mode){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderPattern(mode)}
+renderPattern('tabs');
+
+/* ---------- 1.3 flat items reveal ---------- */
+document.querySelectorAll('.flat-item').forEach(el=>{
+  el.addEventListener('click',()=>{
+    document.getElementById('flatResult').textContent = el.dataset.act==='1'
+      ? '"'+el.textContent+'" was secretly a button. You had no way to know.'
+      : '"'+el.textContent+'" is just text. But it looked exactly like the buttons.';
+  });
+  el.style.cursor='pointer';
+});
+
+/* ---------- 2.1 validation timing ---------- */
+const emailRe=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+badEmail.addEventListener('input',()=>{badEmailErr.textContent = badEmail.value && !emailRe.test(badEmail.value) ? 'Please enter a valid email address' : ''});
+goodEmail.addEventListener('blur',()=>{goodEmailErr.textContent = goodEmail.value && !emailRe.test(goodEmail.value) ? 'Please enter a valid email address' : ''});
+goodEmail.addEventListener('input',()=>{if(goodEmailErr.textContent && emailRe.test(goodEmail.value)) goodEmailErr.textContent=''});
+
+/* ---------- 2.2 noise ---------- */
+let toastT=null, toastY=0;
+noisyBox.addEventListener('input',()=>{clearTimeout(toastT);toastT=setTimeout(()=>{
+  const t=document.createElement('div');t.className='toast';t.textContent='✓ Changes saved';
+  t.style.top=(toastY%3)*30+'px';toastY++;document.getElementById('toastStack').appendChild(t);
+  setTimeout(()=>t.remove(),2200);},350)});
+let quietT=null;
+quietBox.addEventListener('input',()=>{quietStatus.textContent='';clearTimeout(quietT);
+  quietT=setTimeout(()=>{quietStatus.textContent='Saved';},600)});
+
+/* ---------- 2.3 placement ---------- */
+const replies=[['maya','Agreed, the empty state is much better now'],['tomasz','One nit, the icon spacing'],['ines','Fixed in the next commit'],['sam','Nice work everyone']];
+let badOpen=false, goodOpen=false;
+badExpand.addEventListener('click',()=>{
+  badOpen=!badOpen;
+  document.querySelectorAll('#badThread .reply, #badThread .bottom-close').forEach(e=>e.remove());
+  if(badOpen){
+    badExpand.textContent='Show 4 replies';badExpand.style.display='none';
+    replies.forEach(r=>{const d=document.createElement('div');d.className='row reply';d.innerHTML='<strong>'+r[0]+'</strong> '+r[1];badThread.appendChild(d)});
+    const c=document.createElement('button');c.className='linkish bottom-close';c.textContent='Hide replies';
+    c.onclick=()=>{badOpen=false;document.querySelectorAll('#badThread .reply, #badThread .bottom-close').forEach(e=>e.remove());badExpand.style.display='block'};
+    badThread.appendChild(c);
+  } else {badExpand.style.display='block'}
+});
+goodExpand.addEventListener('click',()=>{
+  goodOpen=!goodOpen;goodReplies.innerHTML='';
+  goodExpand.textContent=goodOpen?'Hide replies':'Show 4 replies';
+  if(goodOpen){replies.forEach(r=>{const d=document.createElement('div');d.className='row reply';d.innerHTML='<strong>'+r[0]+'</strong> '+r[1];goodReplies.appendChild(d)})}
+});
+
+/* ---------- 2.5 delight ---------- */
+const swaps=[['->','→'],['<-','←'],['(c)','©'],['(r)','®'],['...','…']];
+delightBox.addEventListener('input',()=>{
+  let v=delightBox.value, hit=false;
+  swaps.forEach(([a,b])=>{if(v.includes(a)){v=v.split(a).join(b);hit=true}});
+  if(hit){const pos=v.length;delightBox.value=v;delightBox.setSelectionRange(pos,pos);
+    delightNote.textContent='Replaced it for you. One hour of engineering, years of tiny smiles.';}
+});
+
+/* ---------- 3.1 map ---------- */
+const places=[
+  {n:'Central Station',p:10,x:0,y:0},
+  {n:'Riverside Market',p:8,x:-28,y:-22},
+  {n:'Old Lighthouse',p:9,x:30,y:-18},
+  {n:'Corner Bakery',p:3,x:-20,y:-14},
+  {n:'Print Shop',p:2,x:-34,y:-28},
+  {n:'City Museum',p:7,x:22,y:20},
+  {n:'Vinyl Records',p:4,x:16,y:14},
+  {n:'Botanic Garden',p:6,x:-26,y:24},
+  {n:'Tea House',p:3,x:-32,y:30},
+  {n:'Dry cleaner',p:1,x:26,y:-26,pin:true},
+];
+function buildMap(el){places.forEach((pl,i)=>{const d=document.createElement('span');d.className='lbl';d.dataset.i=i;
+  d.setAttribute('role','button');d.tabIndex=0;
+  d.addEventListener('click',()=>savePlace(i));
+  d.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();savePlace(i)}});
+  el.appendChild(d)})}
+buildMap(badMap);buildMap(goodMap);
+function savePlace(i){
+  const was=places[i].pin;
+  places.forEach(p=>p.pin=false);
+  if(!was)places[i].pin=true;
+  refreshLabels();layout();
+}
+function refreshLabels(){
+  [badMap,goodMap].forEach(m=>m.querySelectorAll('.lbl').forEach(l=>{
+    const pl=places[+l.dataset.i];
+    l.textContent=(pl.pin?'★ Saved: ':'')+pl.n;
+    l.classList.toggle('pinned',!!pl.pin);
+    l.setAttribute('aria-pressed',String(!!pl.pin));
+  }));
+}
+refreshLabels();
+function refreshMapStatus(){
+  const el=document.getElementById('mapStatus');
+  const saved=places.find(p=>p.pin);
+  el.textContent = saved
+    ? '"'+saved.n+'" is saved. You chose it, so the right map keeps it no matter how crowded it gets. Click it again to unsave.'
+    : 'Nothing is saved. Click any place to save it, and the right map will never hide it.';
+}
+function layout(){
+  const z=document.getElementById('zoom').value/100;
+  [badMap,goodMap].forEach(map=>{
+    map.querySelectorAll('.lbl').forEach(l=>{const pl=places[l.dataset.i];
+      l.style.left=(50+pl.x*z)+'%';l.style.top=(50+pl.y*z)+'%';l.classList.remove('hidden-lbl')});
+  });
+  const lbls=[...goodMap.querySelectorAll('.lbl')].sort((a,b)=>{
+    const A=places[a.dataset.i],B=places[b.dataset.i];
+    return (B.pin?100:B.p)-(A.pin?100:A.p)});
+  const kept=[];
+  lbls.forEach(l=>{
+    const r=l.getBoundingClientRect();
+    const clash=kept.some(k=>!(r.right<k.left||r.left>k.right||r.bottom<k.top||r.top>k.bottom));
+    if(clash && !places[l.dataset.i].pin){l.classList.add('hidden-lbl')} else kept.push(r);
+  });
+  refreshMapStatus();
+}
+document.getElementById('zoom').addEventListener('input',layout);
+window.addEventListener('resize',layout);
+setTimeout(layout,100);
+
+/* ---------- 3.2 slots ---------- */
+const notices=[
+  {n:'Payment method expiring',p:9},{n:'Deploy finished successfully',p:7},
+  {n:'2 new comments on your doc',p:5},{n:'Weekly digest is ready',p:3},
+  {n:'On-call rota',p:1},{n:'Tips for getting started',p:2},
+];
+let pinnedNotice=null, slotCount=5;
+function renderSlots(){
+  const g=document.getElementById('slotgrid');g.innerHTML='';
+  const sorted=[...notices].sort((a,b)=>((b===pinnedNotice?100:b.p)-(a===pinnedNotice?100:a.p)));
+  const keep=new Set(sorted.slice(0,slotCount));
+  notices.forEach(n=>{
+    const isPin=n===pinnedNotice;
+    const d=document.createElement('div');
+    d.className='slot-item'+(isPin?' pin':'')+(keep.has(n)?'':' cut');
+    const pin=document.createElement('button');
+    pin.className='pinbtn'+(isPin?' on':'');
+    pin.textContent=isPin?'★':'☆';
+    pin.setAttribute('role','switch');
+    pin.setAttribute('aria-checked',String(isPin));
+    pin.setAttribute('aria-label','Pin '+n.n);
+    pin.onclick=()=>{pinnedNotice=isPin?null:n;renderSlots()};
+    const name=document.createElement('span');name.textContent=n.n;name.style.flex='1';
+    const pri=document.createElement('span');pri.className='pri';pri.textContent=isPin?'pinned':'priority '+n.p;
+    d.append(pin,name,pri);g.appendChild(d)});
+}
+function setSlots(btn,c){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');slotCount=c;renderSlots()}
+renderSlots();
+
+/* ---------- 3.3 dates ---------- */
+const shots=[
+  {t:'Fri 9:12 PM',night:true,g:'fri'},{t:'Fri 11:48 PM',night:true,g:'fri'},
+  {t:'Sat 12:37 AM',night:true,g:'sat'},{t:'Sat 1:24 AM',night:true,g:'sat'},
+  {t:'Sat 10:05 AM',night:false,g:'sat'},
+];
+function renderDates(mode){
+  const s=document.getElementById('dateStage');s.innerHTML='';
+  const groups = mode==='literal'
+    ? [['Friday',shots.filter(x=>x.g==='fri')],['Saturday',shots.filter(x=>x.g==='sat')]]
+    : [['Friday night',shots.slice(0,4)],['Saturday',shots.slice(4)]];
+  groups.forEach(([h,list])=>{
+    const gh=document.createElement('div');gh.className='group-h';gh.textContent=h;s.appendChild(gh);
+    const row=document.createElement('div');row.className='photo-row';
+    list.forEach(x=>{const p=document.createElement('div');p.className='photo'+(x.night?' night':'');p.textContent=x.t.split(' ')[1]+' '+x.t.split(' ')[2];row.appendChild(p)});
+    s.appendChild(row)});
+  document.getElementById('dateCaption').textContent = mode==='literal'
+    ? 'Technically correct, the 12:37 AM and 1:24 AM photos ARE Saturday. But nobody remembers their night out as two separate days.'
+    : 'The same photos, grouped the way a person remembers the evening. Someone had to decide midnight isn\'t where a night ends.';
+}
+function setDates(btn,m){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderDates(m)}
+renderDates('literal');
+
+/* ---------- 3.3b feels like ---------- */
+const windEl=document.getElementById('wind');
+function renderFeels(){
+  const v=+windEl.value, T=8;
+  const wc=Math.round(13.12+0.6215*T-11.37*Math.pow(v,0.16)+0.3965*T*Math.pow(v,0.16));
+  document.getElementById('feelsTemp').textContent=wc+'°C';
+  document.getElementById('windCaption').textContent='Wind at '+v+' km/h. The sensor still says 8°C, the person standing in it feels '+wc+'°C. The measurement is correct, the human number is useful.';
+}
+windEl.addEventListener('input',renderFeels);renderFeels();
+
+/* ---------- 3.4 optimistic ---------- */
+let badLiked=false, goodLiked=false, goodTimer=null;
+badLike.addEventListener('click',()=>{
+  if(badLike.disabled)return;
+  badLike.disabled=true;
+  badLikeTxt.innerHTML='<span class="spin"></span>';
+  setTimeout(()=>{badLiked=!badLiked;badLike.disabled=false;
+    badLike.classList.toggle('liked',badLiked);
+    badLike.querySelector('.heart').textContent=badLiked?'♥':'♡';
+    badLikeTxt.textContent=badLiked?'Liked':'Like';},1400);
+});
+goodLike.addEventListener('click',()=>{
+  clearTimeout(goodTimer);
+  goodLiked=!goodLiked;
+  goodLike.classList.toggle('liked',goodLiked);
+  goodLike.querySelector('.heart').textContent=goodLiked?'♥':'♡';
+  goodLikeTxt.textContent=goodLiked?'Liked':'Like';
+  goodSync.textContent='syncing…';
+  const willFail=document.getElementById('failSim').checked && goodLiked;
+  goodTimer=setTimeout(()=>{
+    if(willFail){
+      goodLiked=false;
+      goodLike.classList.remove('liked');
+      goodLike.querySelector('.heart').textContent='♡';
+      goodLikeTxt.textContent='Like';
+      goodSync.textContent='Couldn\'t save your like. It was undone, tap to retry.';
+    } else {goodSync.textContent='synced ✓';setTimeout(()=>{if(goodSync.textContent==='synced ✓')goodSync.textContent=''},1500)}
+  },1200);
+});
+
+/* ---------- 3.5 prefetch ---------- */
+const REPORT='<strong>Q2 Report</strong><br>Revenue up 14%, churn down 0.8 points, three new enterprise logos. Full narrative attached.';
+const LOAD_MS=1500;
+let coldTimer=null, warmTimer=null;
+coldOpen.addEventListener('click',()=>{
+  clearTimeout(coldTimer);
+  coldReport.innerHTML='<div class="skeleton" style="width:70%"></div><div class="skeleton" style="width:90%"></div><div class="skeleton" style="width:55%"></div>';
+  coldTimer=setTimeout(()=>coldReport.innerHTML=REPORT,LOAD_MS);
+});
+let prefetchStart=null, prefetched=false;
+warmOpen.addEventListener('mouseenter',()=>{
+  if(prefetched)return;
+  prefetchStart=Date.now();
+  warmHint.textContent='prefetching in the background…';
+  setTimeout(()=>{if(prefetchStart){prefetched=true;warmHint.textContent='ready before you clicked'}},LOAD_MS);
+});
+warmOpen.addEventListener('focus',()=>warmOpen.dispatchEvent(new Event('mouseenter')));
+warmOpen.addEventListener('click',()=>{
+  clearTimeout(warmTimer);
+  const elapsed=prefetchStart?Date.now()-prefetchStart:0;
+  const remaining=Math.max(0,LOAD_MS-elapsed);
+  if(remaining===0){warmReport.innerHTML=REPORT;warmHint.textContent='opened instantly, it was already here';}
+  else{
+    warmReport.innerHTML='<div class="skeleton" style="width:70%"></div><div class="skeleton" style="width:90%"></div>';
+    warmTimer=setTimeout(()=>{warmReport.innerHTML=REPORT;prefetched=true},remaining);
+  }
+});
+document.getElementById('prefetchReset').addEventListener('click',()=>{
+  clearTimeout(coldTimer);clearTimeout(warmTimer);
+  prefetchStart=null;prefetched=false;
+  coldReport.textContent='Nothing loaded yet.';
+  warmReport.textContent='Nothing loaded yet.';
+  warmHint.textContent='';
+});
+
+/* ---------- 2.7 tolerance ---------- */
+function codeCheck(el,msg,forgiving){
+  const raw=el.value;
+  if(!raw){msg.textContent='';return}
+  const v=forgiving?raw.trim().toUpperCase().replace(/\s+/g,''):raw;
+  if(v==='SAVE20'){msg.className='ok-inline';msg.textContent=(forgiving&&v!==raw)?'Code applied, we tidied the formatting for you':'Code applied';}
+  else{msg.className='err';msg.textContent='Invalid code';}
+}
+badCode.addEventListener('input',()=>codeCheck(badCode,badCodeMsg,false));
+goodCode.addEventListener('input',()=>codeCheck(goodCode,goodCodeMsg,true));
+
+/* ---------- 2.8 focus ---------- */
+const focusItems=['Weekly report','Design sync notes','Launch checklist'];
+function buildFocusList(el,good){
+  el.innerHTML='';
+  focusItems.forEach(t=>{
+    const row=document.createElement('div');row.className='row';row.style.cssText='display:flex;justify-content:space-between;align-items:center;gap:10px';
+    const s=document.createElement('span');s.textContent=t;
+    const b=document.createElement('button');b.className='btn';b.style.cssText='padding:4px 10px;font-size:12.5px';b.textContent='Delete';b.setAttribute('aria-label','Delete '+t);
+    b.addEventListener('click',()=>{
+      const next=row.nextElementSibling||row.previousElementSibling;
+      row.remove();
+      if(good){
+        const nb=next?next.querySelector('button'):null;
+        if(nb){nb.focus();goodFocusNote.textContent='Deleted, and focus was sent to the next item on purpose. Press Enter again, it just works.';}
+        else {goodKbd.textContent='⌨ Focus: the empty state';goodFocusNote.textContent='List empty, focus moves to the empty state.';}
+      } else {
+        badKbd.textContent='⌨ Focus: lost, back to the top of the page';
+        badFocusNote.textContent='The button under the keyboard just vanished. Tab now starts from the very top.';
+      }
+    });
+    row.append(s,b);el.appendChild(row);
+  });
+}
+[[badFocusList,badKbd],[goodFocusList,goodKbd]].forEach(([list,marker])=>{
+  list.addEventListener('focusin',e=>{const b=e.target.closest('button');if(!b)return;b.classList.add('kbd-focus');marker.textContent='⌨ Focus: '+b.getAttribute('aria-label');});
+  list.addEventListener('focusout',e=>{const b=e.target.closest('button');if(b)b.classList.remove('kbd-focus');});
+});
+function resetFocusDemo(){
+  buildFocusList(badFocusList,false);buildFocusList(goodFocusList,true);
+  badKbd.textContent='⌨ Focus: nowhere yet, click or Tab to a Delete';
+  goodKbd.textContent='⌨ Focus: nowhere yet, click or Tab to a Delete';
+  badFocusNote.textContent='Delete an item, then read the focus line.';
+  goodFocusNote.textContent='Same action, but focus is sent to the next item on purpose.';
+}
+resetFocusDemo();
+focusReset.addEventListener('click',resetFocusDemo);
+
+/* ---------- 3.6 never lose work ---------- */
+let draft='',draftPos=0,dsT=null;
+durableBox.addEventListener('input',()=>{
+  draft=durableBox.value;draftPos=durableBox.selectionStart;
+  durableStatus.textContent='';clearTimeout(dsT);
+  dsT=setTimeout(()=>{durableStatus.textContent='Saved'},500);
+});
+crashBtn.addEventListener('click',()=>{
+  [fragileBox,durableBox].forEach(b=>{b.disabled=true;b.style.opacity=.4});
+  crashCaption.textContent='Crashing…';
+  setTimeout(()=>{
+    fragileBox.value='';durableBox.value=draft;
+    [fragileBox,durableBox].forEach(b=>{b.disabled=false;b.style.opacity=''});
+    if(draft){durableBox.focus();durableBox.setSelectionRange(draftPos,draftPos);durableStatus.textContent='Draft restored, cursor and all';}
+    crashCaption.textContent='The left box lost everything. The right box was saving on every keystroke, so the crash cost nothing.';
+  },800);
+});
+
+/* ---------- 3.7 undo ---------- */
+badDel.addEventListener('click',()=>{badFileRow.style.display='none';badConfirmRow.style.display='flex';});
+badNo.addEventListener('click',()=>{badConfirmRow.style.display='none';badFileRow.style.display='flex';});
+badYes.addEventListener('click',()=>{badConfirmRow.style.display='none';badUndoNote.textContent='Two clicks and a question to do one thing. The dialog was the tax.';});
+let undoT=null,undoLeft=5;
+goodDel.addEventListener('click',()=>{
+  goodFileRow.style.display='none';goodUndoRow.style.display='flex';
+  undoLeft=5;goodUndo.textContent='Undo · 5';clearInterval(undoT);
+  undoT=setInterval(()=>{undoLeft--;
+    if(undoLeft<=0){clearInterval(undoT);goodUndoRow.style.display='none';goodUndoNote.textContent='Grace window passed, now it\'s really gone. Nobody was interrogated.';}
+    else goodUndo.textContent='Undo · '+undoLeft;},1000);
+});
+goodUndo.addEventListener('click',()=>{clearInterval(undoT);goodUndoRow.style.display='none';goodFileRow.style.display='flex';goodUndoNote.textContent='Changed your mind, no harm done. That\'s what reversibility buys.';});
+undoReset.addEventListener('click',()=>{
+  clearInterval(undoT);
+  badConfirmRow.style.display='none';badFileRow.style.display='flex';
+  goodUndoRow.style.display='none';goodFileRow.style.display='flex';
+  badUndoNote.textContent='Every delete interrogates you, even when you\'re sure.';
+  goodUndoNote.textContent='Deleted instantly, reversible for five seconds.';
+});
+
+/* ---------- 3.8 one truth ---------- */
+let badBal=120,badLagT=null,goodBal=120;
+badSpend.addEventListener('click',()=>{
+  badBal=badBal<10?120:badBal-10;
+  badBalA.textContent='$'+badBal;
+  badBalB.style.color='var(--bad)';
+  badTruthNote.textContent='The header says $'+badBal+', the card still says '+badBalB.textContent+'. Which one does the user trust?';
+  clearTimeout(badLagT);
+  const target=badBal;
+  badLagT=setTimeout(()=>{badBalB.textContent='$'+target;badBalB.style.color='';badTruthNote.textContent='Back in sync, until the next click.';},1500);
+});
+goodSpend.addEventListener('click',()=>{
+  goodBal=goodBal<10?120:goodBal-10;
+  goodBalA.textContent=goodBalB.textContent='$'+goodBal;
+  goodTruthNote.textContent='One store, two views, zero disagreement.';
+});
+
+/* ---------- checklist ---------- */
+const checks=[
+  [1,'Can a first-time user read every state and control correctly in one glance?'],
+  [1,'Did I use established patterns instead of inventing?'],
+  [2,'Is every piece of feedback timed to when the user can act on it?'],
+  [2,'Did I suppress feedback that would repeat too often?'],
+  [2,'Does it hold up on the hardware users actually own?'],
+  [2,'Is the user\'s next action one step away, not a journey away?'],
+  [3,'Are conflicts (space, attention, data) resolved by a system, not hardcoding?'],
+  [3,'Is the data model human, not just technically correct?'],
+  [3,'Did I remove every unnecessary wait, responsibly?'],
+  [3,'Is their work safe through a crash, refresh, or back button?'],
+  [3,'Is every destructive action undoable instead of interrogated?'],
+  [3,'Does every fact on screen come from one source of truth?'],
+];
+const cl=document.getElementById('checkList');
+checks.forEach(([lv,q],i)=>{
+  const label=document.createElement('label');label.className='check-item';
+  label.innerHTML='<input type="checkbox" data-i="'+i+'"><span><span class="lv lv'+lv+'">L'+lv+'</span>'+q+'</span>';
+  cl.appendChild(label);
+});
+cl.addEventListener('change',()=>{
+  const n=cl.querySelectorAll('input:checked').length;
+  document.getElementById('progBar').style.width=(n/checks.length*100)+'%';
+  document.getElementById('progNote').textContent = n+' of '+checks.length+' examined'+(n===checks.length?' · nice, now ship it':'');
+});
+</script>
+</body>
+</html>

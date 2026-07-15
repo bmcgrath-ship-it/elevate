@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 1 · The Surface | The Three Levels of Craft</title>
+<style>
+:root{
+  --bg:#13232d;--bg-raised:#1a2c38;--bg-card:#213743;--border:#2f4553;
+  --accent:#1475e1;--accent-hover:#3a8ff0;--green:#00e701;
+  --lvl:#1475e1;--lvl-soft:rgba(20,117,225,.12);
+  --bad:#ff5470;--bad-soft:rgba(255,84,112,.12);--good:#00e701;--good-soft:rgba(0,231,1,.1);
+  --text:#f7fafc;--text-2:#9fbed0;
+  --r-sm:4px;--r:8px;--r-lg:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Proxima Nova',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.65;min-height:100vh}
+.topbar{background:var(--bg-raised);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;align-items:center;gap:24px;position:sticky;top:0;z-index:10}
+.wordmark{font-weight:800;font-size:20px;letter-spacing:.5px;color:var(--text);text-decoration:none}
+.wordmark span{color:var(--accent)}
+.topnav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.topnav a{color:var(--text-2);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:var(--r-sm);transition:all .15s}
+.topnav a:hover,.topnav a.active{color:var(--text);background:var(--bg-card)}
+.wrap{max-width:820px;margin:0 auto;padding:48px 24px 80px}
+.lvl-badge{display:inline-flex;align-items:center;gap:8px;background:var(--lvl-soft);border:1px solid var(--lvl);color:var(--lvl);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:999px;margin-bottom:18px}
+h1{font-size:34px;line-height:1.2;font-weight:800;margin-bottom:12px;text-wrap:balance}
+h3{text-wrap:balance}
+p{text-wrap:pretty}
+.sub{color:var(--text-2);font-size:17px;margin-bottom:32px;padding-bottom:26px;border-bottom:1px solid var(--border)}
+.q{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px 24px 22px 68px;margin-bottom:14px;position:relative}
+.q .num{position:absolute;left:20px;top:22px;width:32px;height:32px;border-radius:var(--r);background:var(--bg-raised);border:1px solid var(--border);color:var(--accent-hover);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
+.q h3{font-size:17px;font-weight:700;margin-bottom:9px}
+.q p{color:var(--text-2);font-size:15px}
+.q strong{color:var(--text)}
+.exit{margin-top:32px;background:rgba(0,231,1,.06);border:1px solid rgba(0,231,1,.35);border-left:4px solid var(--green);border-radius:var(--r);padding:20px 24px}
+.exit .label{color:var(--green);font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.exit p{color:var(--text);font-size:15px}
+.pager{display:flex;justify-content:space-between;gap:16px;margin-top:48px}
+.pager a{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:14px 20px;text-decoration:none;color:var(--text);font-size:14px;font-weight:600;transition:border-color .15s;flex:1}
+.pager a:hover{border-color:var(--accent)}
+.pager .dir{display:block;color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.pager .next{text-align:right}
+/* ---- interactive demos ---- */
+.demo{margin-top:16px;border:1px dashed #3a5464;border-radius:12px;padding:16px;background:var(--bg-raised)}
+.demo-label{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.demo-label::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--lvl);display:inline-block}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.duo{grid-template-columns:1fr}}
+.duo.aligned .pane{display:grid;grid-template-rows:subgrid;grid-row:span 3;align-items:start}
+.eq46{flex-wrap:wrap}
+@media(min-width:641px){.eq46{flex-wrap:nowrap}}
+.eq46 .btn{min-height:46px;padding:8px 8px;font-size:13px;white-space:nowrap;flex-shrink:0}
+.pane{border-radius:10px;padding:14px;border:1px solid var(--border);background:var(--bg-card)}
+.pane .tag{display:inline-block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:3px 8px;border-radius:99px;margin-bottom:10px}
+.pane.bad .tag{background:var(--bad-soft);color:var(--bad)}
+.pane.good .tag{background:var(--good-soft);color:var(--good)}
+.pane.bad{border-color:rgba(255,84,112,.35)}
+.pane.good{border-color:rgba(0,231,1,.3)}
+.pane p.note{font-size:13px;color:var(--text-2);margin-top:10px}
+.btn{font-family:inherit;font-weight:600;font-size:14px;border:1px solid #3d5b6c;background:#2f4553;color:var(--text);border-radius:9px;padding:8px 14px;cursor:pointer;transition:all .15s}
+.btn:hover{border-color:#557086;background:#3a5464}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:var(--accent-hover)}
+.icon-btn{font-size:20px;width:46px;height:46px;border-radius:12px;border:1px solid #3d5b6c;background:#2f4553;cursor:pointer;transition:border-color .15s}
+.icon-btn:hover{border-color:#557086;background:#3a5464}
+.btn:disabled{opacity:.6;cursor:default}
+.status-chip{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;padding:5px 12px;border-radius:99px;margin-right:10px}
+.status-chip .dot{width:8px;height:8px;border-radius:50%}
+.chip-live{background:var(--good-soft);color:var(--good)}
+.chip-live .dot{background:var(--good)}
+.chip-muted{background:var(--bad-soft);color:var(--bad)}
+.chip-muted .dot{background:var(--bad)}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:14px}
+.seg button{border:0;background:var(--bg-card);padding:7px 14px;font:inherit;font-size:13px;font-weight:600;color:var(--text-2);cursor:pointer;border-right:1px solid var(--border)}
+.seg button:last-child{border-right:0}
+.seg button:hover{color:var(--text)}
+.seg button.on{background:var(--lvl);color:var(--lvl-ink,#fff)}
+.pattern-stage{min-height:64px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.p-tab{padding:8px 16px;border-radius:9px 9px 0 0;border:1px solid var(--border);border-bottom:2px solid transparent;background:var(--bg-raised);font-size:14px;cursor:pointer;color:var(--text)}
+.p-tab:hover{background:#2f4553}
+.p-tab.on{background:#2f4553;border-bottom-color:var(--lvl);font-weight:600}
+.p-chip{padding:7px 15px;border-radius:99px;border:1px solid var(--border);font-size:13.5px;cursor:pointer;background:var(--bg-card);color:var(--text)}
+.p-chip:hover{border-color:#557086}
+.p-chip.on{background:var(--lvl);border-color:var(--lvl);color:var(--lvl-ink,#fff)}
+.p-radio{display:flex;align-items:center;gap:10px;font-size:14px;padding:5px 0;cursor:pointer;width:100%}
+.p-radio input{width:16px;height:16px;accent-color:var(--lvl);cursor:pointer;margin:0}
+.p-toggle-list{width:100%;max-width:320px;border:1px solid var(--border);border-radius:10px;background:var(--bg-card);padding:0 14px}
+.p-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;font-size:14px;border-bottom:1px solid var(--border)}
+.p-toggle-row:last-child{border-bottom:0}
+.switch{width:40px;height:23px;border-radius:99px;background:#3a5464;position:relative;cursor:pointer;border:0;transition:background .15s;flex-shrink:0}
+.switch::after{content:"";position:absolute;top:2.5px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .15s}
+.switch.on{background:var(--good)}
+.switch.on::after{left:19px}
+.stage-caption{font-size:13px;color:var(--text-2);margin-top:12px;font-style:italic}
+button:focus-visible,input:focus-visible{outline:3px solid var(--lvl);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<nav class="topbar">
+  <a class="wordmark" href="index.html">Stake<span>.</span>Engineering</a>
+  <div class="topnav">
+    <a href="index.html">Overview</a>
+    <a href="level-1-surface.html" class="active">Level 1</a>
+    <a href="level-2-details.html">Level 2</a>
+    <a href="level-3-invisible-systems.html">Level 3</a>
+    <a href="pre-ship-checklist.html">Checklist</a>
+  </div>
+</nav>
+<main class="wrap">
+  <div class="lvl-badge">Level 1 · Table stakes</div>
+  <h1>The Surface</h1>
+  <p class="sub">Does the user instantly understand what they see? This is everything visible on screen. Most failures here aren't code bugs. They're comprehension bugs. The user can see everything and still not understand it.</p>
+
+  <div class="q"><div class="num">1</div>
+    <h3>Have I solved the two-state problem?</h3>
+    <p>For any control that switches between states, does it show the <strong>current state</strong> or the <strong>action that will happen</strong>? Am I consistent about this across the whole product? If there's any ambiguity, have I separated <strong>status</strong> (a clear indicator of where things are now) from <strong>action</strong> (a control that changes it)? A user should never have to guess what state the system is in.</p>
+    <div class="demo">
+      <div class="demo-label">Try it, click both microphone controls a few times</div>
+      <div class="duo aligned">
+        <div class="pane bad">
+          <span class="tag">Ambiguous</span>
+          <div><button class="icon-btn" id="badMic" aria-label="microphone toggle">🎤</button></div>
+          <p class="note" id="badMicQ">Quick, is the mic on or off right now? Does the icon show the state, or the action?</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Clear</span>
+          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px">
+            <span class="status-chip chip-live" id="goodChip"><span class="dot"></span><span id="goodChipTxt">Mic is live</span></span>
+            <button class="btn" id="goodMicBtn">Mute mic</button>
+          </div>
+          <p class="note">Status and action are separated. The chip tells you where things are, the button tells you what will happen. Zero guessing.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="q"><div class="num">2</div>
+    <h3>Am I using established patterns instead of inventing new ones?</h3>
+    <p>Users decode familiar patterns in a fraction of a second because they've seen them thousands of times. Every novel interaction carries a learning cost. If I've invented something new, do I have a very good reason, and does it survive a <strong>5-second glance test</strong> with someone who's never seen it?</p>
+    <div class="demo">
+      <div class="demo-label">Try it, reframe identical content</div>
+      <div class="seg" role="group" aria-label="Pattern chooser">
+        <button class="on" onclick="setPattern(this,'tabs')">Tabs</button>
+        <button onclick="setPattern(this,'radios')">Radio buttons</button>
+        <button onclick="setPattern(this,'filters')">Filter chips</button>
+        <button onclick="setPattern(this,'toggles')">Toggles</button>
+      </div>
+      <div class="pattern-stage" id="patternStage"></div>
+      <p class="stage-caption" id="patternCaption"></p>
+    </div>
+  </div>
+  <div class="q"><div class="num">3</div>
+    <h3>Does the presentation communicate the behavior?</h3>
+    <p>Identical content reads completely differently depending on how it's grouped, framed, and shaped. Have I used layout and visual structure so the user knows what's clickable, what's switchable, and what's purely informational, <strong>without</strong> labels explaining it?</p>
+    <div class="demo">
+      <div class="demo-label">Try it, guess what's interactive, then hover or tap to find out</div>
+      <div class="duo aligned">
+        <div class="pane bad">
+          <span class="tag">No affordances</span>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:14px">
+            <span class="flat-item" data-act="1" style="cursor:default">Export data</span>
+            <span class="flat-item" data-act="0" style="cursor:default">Last synced 2h ago</span>
+            <span class="flat-item" data-act="1" style="cursor:default">Share</span>
+          </div>
+          <p class="note" id="flatResult">Everything looks the same, so nothing looks tappable. Which of these are buttons?</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Self-evident</span>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <button class="btn primary" onclick="flash(this)">Export data</button>
+            <button class="btn" onclick="flash(this)">Share</button>
+            <span style="font-size:12.5px;color:var(--text-2)">Last synced 2h ago</span>
+          </div>
+          <p class="note">Buttons look like buttons, metadata looks like metadata. No labels needed to explain any of it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="q"><div class="num">4</div>
+    <h3>Would this work without an instruction manual?</h3>
+    <p>If I have to write help text to explain a control, <strong>the control is probably wrong.</strong></p>
+    <div class="demo">
+      <div class="demo-label">Try it, hover the icons on the left</div>
+      <div class="duo aligned">
+        <div class="pane bad">
+          <span class="tag">Needs a manual</span>
+          <div style="display:flex;gap:8px">
+            <button class="icon-btn" title="Archives the item and removes it from your active view">◈</button>
+            <button class="icon-btn" title="Duplicates the item into your drafts folder">⧉</button>
+            <button class="icon-btn" title="Sends the item to everyone watching this project">◬</button>
+          </div>
+          <p class="note">Each one needed a tooltip essay. Tooltips are the interface admitting it failed.</p>
+        </div>
+        <div class="pane good">
+          <span class="tag">Self-explaining</span>
+          <div class="eq46" style="display:flex;gap:6px">
+            <button class="btn" onclick="flash(this)">Archive</button>
+            <button class="btn" onclick="flash(this)">Duplicate</button>
+            <button class="btn" onclick="flash(this)">Notify watchers</button>
+          </div>
+          <p class="note">A word beats a mystery glyph. Icons are fine once a pattern is universally known, not before.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exit">
+    <div class="label">Exit criteria</div>
+    <p>A first-time user understands the state of the system and what every control will do, within a second of looking at it.</p>
+  </div>
+
+  <div class="pager">
+    <a href="index.html"><span class="dir">← Back</span>Overview</a>
+    <a class="next" href="level-2-details.html"><span class="dir">Next →</span>Level 2 · The Details</a>
+  </div>
+</main>
+<script>
+function flash(btn){const o=btn.textContent;btn.style.minWidth=btn.offsetWidth+'px';btn.textContent='Done ✓';btn.disabled=true;setTimeout(()=>{btn.textContent=o;btn.disabled=false},900)}
+
+/* two-state */
+let badOn=true, goodOn=true;
+badMic.addEventListener('click',()=>{badOn=!badOn;badMic.textContent=badOn?'🎤':'🔇';
+  badMicQ.textContent='So... does '+badMic.textContent+' mean the mic IS '+(badOn?'on':'off')+', or that clicking will turn it '+(badOn?'off':'on')+'? Exactly.';});
+goodMicBtn.addEventListener('click',()=>{goodOn=!goodOn;
+  goodChip.className='status-chip '+(goodOn?'chip-live':'chip-muted');
+  goodChipTxt.textContent=goodOn?'Mic is live':'Mic is muted';
+  goodMicBtn.textContent=goodOn?'Mute mic':'Unmute mic';});
+
+/* patterns */
+const items=['Overview','Activity','Settings'];
+const captions={
+  tabs:'Now you expect these to switch the content below, and only one can be active.',
+  radios:'Now you expect these to record one choice, picking another replaces it, and nothing else on the page changes.',
+  filters:'Now you expect these to filter a list, and several can be active at once.',
+  toggles:'Now you expect these to turn features on and off, independently.'
+};
+function renderPattern(mode){
+  const s=document.getElementById('patternStage');s.innerHTML='';
+  if(mode==='tabs'){items.forEach((t,i)=>{const b=document.createElement('button');b.className='p-tab'+(i===0?' on':'');b.textContent=t;
+    b.onclick=()=>{s.querySelectorAll('.p-tab').forEach(x=>x.classList.remove('on'));b.classList.add('on')};s.appendChild(b)})}
+  if(mode==='radios'){items.forEach((t,i)=>{const lab=document.createElement('label');lab.className='p-radio';
+    const r=document.createElement('input');r.type='radio';r.name='patternRadio';r.checked=i===0;
+    const sp=document.createElement('span');sp.textContent=t;
+    lab.append(r,sp);s.appendChild(lab)})}
+  if(mode==='filters'){items.forEach((t,i)=>{const b=document.createElement('button');b.className='p-chip'+(i===0?' on':'');b.textContent=t;
+    b.onclick=()=>b.classList.toggle('on');s.appendChild(b)})}
+  if(mode==='toggles'){const list=document.createElement('div');list.className='p-toggle-list';
+    items.forEach((t,i)=>{const row=document.createElement('div');row.className='p-toggle-row';
+    const lbl=document.createElement('span');lbl.textContent=t;lbl.id='tglLbl'+i;
+    const sw=document.createElement('button');sw.className='switch'+(i===0?' on':'');sw.setAttribute('role','switch');sw.setAttribute('aria-checked',i===0?'true':'false');sw.setAttribute('aria-labelledby','tglLbl'+i);
+    sw.onclick=()=>{sw.classList.toggle('on');sw.setAttribute('aria-checked',String(sw.classList.contains('on')))};
+    row.append(lbl,sw);list.appendChild(row)});s.appendChild(list)}
+  document.getElementById('patternCaption').textContent=captions[mode];
+}
+function setPattern(btn,mode){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderPattern(mode)}
+renderPattern('tabs');
+
+/* affordances reveal */
+document.querySelectorAll('.flat-item').forEach(el=>{
+  el.addEventListener('click',()=>{
+    document.getElementById('flatResult').textContent = el.dataset.act==='1'
+      ? '"'+el.textContent+'" was secretly a button. You had no way to know.'
+      : '"'+el.textContent+'" is just text. But it looked exactly like the buttons.';
+  });
+  el.style.cursor='pointer';
+});
+</script>
+</body>
+</html>
