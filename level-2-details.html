@@ -236,7 +236,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px soli
 
   <div class="q"><div class="num">7</div>
     <h3>Do I accept input the way humans give it?</h3>
-    <p>People paste phone numbers with spaces, type promo codes in lowercase, and leave a trailing space after their email. <strong>Be liberal in what you accept.</strong> Normalize before you validate, and never reject input a human considers obviously valid.</p>
+    <p>People paste phone numbers with spaces, type promo codes in lowercase, and leave a trailing space after their email. <strong>Be liberal in what you accept.</strong> Normalise before you validate, and never reject input a human considers obviously valid.</p>
     <div class="demo">
       <div class="demo-label">Try it, enter save20 with stray spaces or caps in both fields</div>
       <div class="duo">
@@ -247,7 +247,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px soli
           <p class="note">It wanted SAVE20, exactly. The user typed the right code and got rejected anyway.</p>
         </div>
         <div class="pane good">
-          <span class="tag">Normalizes first</span>
+          <span class="tag">Normalises first</span>
           <input class="field" id="goodCode" type="text" placeholder="Promo code, try:  save20 " aria-label="forgiving promo code field">
           <div class="err" id="goodCodeMsg"></div>
           <p class="note">Trim, uppercase, then check. The parser forgives, so the person never knows there was anything to forgive.</p>
